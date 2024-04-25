@@ -1,0 +1,36 @@
+textarea {
+    font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #444;
+    resize: none;
+    background-color: transparent;
+    border: 1px solid #a5b0b0;
+    padding: 5px;
+}
+
+button {
+   -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+button {
+    font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: white;
+    min-width: 90px;
+    padding: 8px 10px 8px;
+}
+.btn-primary {
+    background-color: #006e3a;
+    box-shadow: 0 2px #002b17;
+}
+
+@media (prefers-color-scheme: dark) {
+    textarea {
+        color: #c9d1d9;
+    }
+}

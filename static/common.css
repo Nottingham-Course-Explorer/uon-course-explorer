@@ -1,0 +1,96 @@
+/* Avoid weirdness */
+* {
+    min-width: 0;
+}
+
+/* Lists */
+li {
+    margin: 10px 0;
+}
+ul {
+    margin: 0;
+}
+
+body {
+	max-width: 750px;
+	margin: 40px auto;
+	padding: 0 10px;
+	font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	color: #444;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #a5b0b0;
+}
+
+h1, h2, h3 {
+	line-height: 1.2;
+}
+
+/* Table */
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+thead {
+	font-weight: bold;
+}
+
+th, td {
+    border-bottom: 1px solid #a5b0b0;
+    padding: 15px;
+}
+
+/* Datalist */
+
+dl {
+    display: table;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+dt {
+    display: table-cell;
+    font-weight: bold;
+}
+
+dd {
+    display: table-cell;
+}
+
+dt, dd {
+    padding: 10px 0 10px 0;
+}
+
+.summary-list-row {
+    display: table-row;
+    border-bottom: 1px solid #a5b0b0;
+}
+
+/* Dark mode */
+
+:root {
+    color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+    }
+
+	body {
+		color: #c9d1d9;
+		background-color: #0d1117;
+	}
+
+	a:link {
+		color: #58a6ff;
+	}
+
+	a:visited {
+		color: #8e96f0;
+	}
+}

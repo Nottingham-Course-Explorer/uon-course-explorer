@@ -1,0 +1,56 @@
+{% extends "base.html.jinja" %}
+{% block title %}Index{% endblock %}
+{% block main %}
+    <h1>Module Index</h1>
+    <form action="/" method="get" hx-boost="true">
+        <label for="name-input">Name</label>
+        <input id="name-input" name="name" value="{{ name_query }}">
+        <button type="submit">Search</button>
+    </form>
+    <form
+            _="on submit
+                halt the event
+                go to url `module/${(first <input/> in me).value}`">
+        <label for="code-input">Code</label>
+        <input id="code-input" name="code" autocapitalize="characters">
+        <button type="submit">Go</button>
+    </form>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <td>Code</td>
+                <td>Title</td>
+                <td>Year</td>
+                <td>Credits</td>
+                <td>Level</td>
+            </tr>
+        </thead>
+        <tbody hx-boost="true">
+        {% for result in results %}
+            <tr>
+                <td>
+                    {{ result[0] }}
+                </td>
+                <td>
+                    <a href="{{ url_for("module", code=result[0]) }}">
+                        {{ result[1] }}
+                    </a>
+                </td>
+                <td>
+                    {{ result[2] }}
+                </td>
+                <td>
+                    {% if result[3] != 0 %}
+                        {{ result[3] }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {{ result[4] }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

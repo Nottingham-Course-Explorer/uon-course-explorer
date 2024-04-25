@@ -1,0 +1,101 @@
+{% extends "base.html.jinja" %}
+{% block title %}{{ module.title }}{% endblock %}
+{% block main %}
+    <h1>{{ module.title }}</h1>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <td>Code</td>
+                <td>School</td>
+                <td>Level</td>
+                <td>Credits</td>
+                <td>Year</td>
+                <td>Semesters</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ module.code }}</td>
+                <td>{{ module.school }}</td>
+                <td>{{ module.level }}</td>
+                <td>
+                {% if module.credits != 0 %}
+                    {{ module.credits }}
+                {% else %}
+                    N/A
+                {% endif %}
+                </td>
+                <td>{{ module.year }}</td>
+                <td>{{ module.semesters }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="summary">Summary</h2>
+    {{ module.summary }}
+    <div>
+        This module is convened by:
+        <ul>
+        {% for convener in conveners %}
+            <li>
+            {% if convener.username != "NULL" %}
+                <a href="{{ url_for("person", username=convener.username) }}">{{ convener.name }}</a>
+            {% else %}
+                {{ convener.username }}
+            {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <p>
+        <a href="{{ module.url }}">View in Curriculum Catalogue</a>
+    </p>
+
+    <hr />
+
+    <h2>Comments</h2>
+    <style>
+        #comment-input-area {
+            display: grid;
+            grid-template-areas:
+                "identicon textarea"
+                "identicon actions";
+            grid-template-columns: min-content 1fr;
+            grid-template-rows: auto auto;
+        }
+        #identicon {
+            grid-area: identicon;
+            padding-right: 10px;
+        }
+        #textarea {
+            grid-area: textarea;
+        }
+        #actions {
+            grid-area: actions;
+            margin-top: 10px;
+        }
+    </style>
+    <form id="comment-input-area"
+          _='on submit
+             halt the event
+             call alert("Hello, world!")'>
+        <div id="identicon">
+            <div title="{{ public_token_short }}">
+                <svg width="60" height="60" data-jdenticon-value="{{ public_token }}"></svg>
+            </div>
+        </div>
+        <textarea id="textarea" maxlength="280" style="height: 81px">This course provides a basic course in algebra and calculus required for data science. It introduces key elements of definition, manipulation, graphical This course provides a basic course in algebra and calculus required for data science. </textarea>
+        <div id="actions">
+            <button class="btn-primary">Post</button>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
+            integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
+            crossorigin="anonymous">
+    </script>
+    <script lang="js">
+        window.jdenticon_config = {
+            padding: 0
+        }
+    </script>
+{% endblock %}
