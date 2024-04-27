@@ -1,56 +1,90 @@
 {% extends "base.html.jinja" %}
 {% block title %}Index{% endblock %}
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+{% endblock %}
 {% block main %}
-    <h1>Module Index</h1>
-    <form action="/" method="get" hx-boost="true">
-        <label for="name-input">Name</label>
-        <input id="name-input" name="name" value="{{ name_query }}">
-        <button type="submit">Search</button>
-    </form>
-    <form
-            _="on submit
+	<h1>Module Search</h1>
+
+	<!-- Search area -->
+	<div id="search-area">
+		<div id="select-level">
+			<label>
+				Level
+				<select name="level" form="search">
+					<option value="">Any
+						{% for level in ["0", "1", "2", "3", "4", "5"] %}
+							<option {%- if level == level_query %} selected{% endif %}>{{ level }}
+						{% endfor %}
+				</select>
+			</label>
+		</div>
+
+		<div id="select-semester">
+			<label>
+				Semester
+				<select name="semester" form="search">
+					<option value="">Any
+					<option>Spring UK
+					<option>Autumn UK
+					<option>Full Year UK
+				</select>
+			</label>
+		</div>
+
+		<form id="search" action="/" method="get" hx-boost="true" hx-replace-url="true" hx-swap="innerHTML show:no-scroll">
+			<label for="name-input">Name</label>
+			<input id="name-input" name="name" value="{{ name_query }}">
+			<button type="submit" class="btn-primary">Search</button>
+		</form>
+
+		<form id="go-to-module"
+			  _="on submit
                 halt the event
-                go to url `module/${(first <input/> in me).value}`">
-        <label for="code-input">Code</label>
-        <input id="code-input" name="code" autocapitalize="characters">
-        <button type="submit">Go</button>
-    </form>
-    <table style="width: 100%">
-        <thead>
-            <tr>
-                <td>Code</td>
-                <td>Title</td>
-                <td>Year</td>
-                <td>Credits</td>
-                <td>Level</td>
-            </tr>
-        </thead>
-        <tbody hx-boost="true">
-        {% for result in results %}
-            <tr>
-                <td>
-                    {{ result[0] }}
-                </td>
-                <td>
-                    <a href="{{ url_for("module", code=result[0]) }}">
-                        {{ result[1] }}
-                    </a>
-                </td>
-                <td>
-                    {{ result[2] }}
-                </td>
-                <td>
-                    {% if result[3] != 0 %}
-                        {{ result[3] }}
-                    {% else %}
-                        N/A
-                    {% endif %}
-                </td>
-                <td>
-                    {{ result[4] }}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                set input to (first <input/> in me).value
+                if input != ''
+                  go to url `module/${input}`
+				end">
+			<label for="code-input">Code</label>
+			<input id="code-input" name="code">
+			<button type="submit" class="btn-primary">Go</button>
+		</form>
+	</div>
+
+	<!-- Results list -->
+	<table style="width: 100%">
+		<thead>
+		<tr>
+			<td>Code</td>
+			<td>Title</td>
+			<td>Credits</td>
+			<td>Level</td>
+		</tr>
+		</thead>
+		<tbody>
+		{% for module in modules %}
+			<tr>
+				<td>
+					{{ module.code }}
+				</td>
+				<td>
+					<a href="{{ url_for("module_page", code=module.code) }}">
+						{{ module.title }}
+					</a>
+				</td>
+				<td>
+					{% if module.credits != 0 %}
+						{{ module.credits }}
+					{% else %}
+						N/A
+					{% endif %}
+				</td>
+				<td>
+					{{ module.level }}
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 {% endblock %}

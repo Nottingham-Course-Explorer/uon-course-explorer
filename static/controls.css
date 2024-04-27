@@ -7,6 +7,16 @@ textarea {
     padding: 5px;
 }
 
+select {
+    font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding: 5px;
+}
+
+input {
+    font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding: 5px;
+}
+
 button {
    -webkit-appearance: none;
     -moz-appearance: none;
@@ -22,6 +32,7 @@ button {
     font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: white;
     min-width: 90px;
+    cursor: pointer;
     padding: 8px 10px 8px;
 }
 .btn-primary {

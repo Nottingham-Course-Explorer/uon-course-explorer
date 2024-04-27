@@ -2,24 +2,24 @@
 {% set full_name = [person.salutation, person.forename, person.surname]|join(" ") %}
 {% block title %}{{ full_name }}{% endblock %}
 {% block main %}
-    <h1>{{ full_name }}</h1>
-    <style>
+	<h1>{{ full_name }}</h1>
+	<style>
         dt {
             width: 150px;
         }
-    </style>
-    <dl>
-        <div class="summary-list-row">
-            <dt>Email</dt>
-            <dd><a href="mailto:{{ person.email }}">{{ person.email }}</a></dd>
-        </div>
-        <div class="summary-list-row">
-            <dt>Title</dt>
-            <dd>{{ person.title }}</dd>
-        </div>
-        <div class="summary-list-row">
-            <dt>Department</dt>
-            <dd>{{ person.department }}</dd>
-        </div>
-    </dl>
+	</style>
+	<dl>
+		<div class="summary-list-row">
+			<dt>Email</dt>
+			<dd><a href="mailto:{{ person.email }}">{{ person.email }}</a></dd>
+		</div>
+		<div class="summary-list-row">
+			<dt>Title</dt>
+			<dd>{{ person.title }}</dd>
+		</div>
+		<div class="summary-list-row">
+			<dt>Department</dt>
+			<dd>{{ person.department }}</dd>
+		</div>
+	</dl>
 {% endblock %}
