@@ -1,15 +1,20 @@
 import sqlite3
 from functools import cache
 
-DATABASE = "./modules.db"
+"""This script goes through all the modules and attempts to associate the names of the module
+conveners with the names obtained from the Staff Lookup API, and writes their usernames.
+
+- Some staff names in modules are not in the Staff Lookup database.
+- Some staff names include varying numbers of middle names, or different salutations.
+- Some staff names in modules do not provide enough middle names to determine which of multiple
+Staff Lookup results are the mentioned person.
+"""
+
+DATABASE = "../modules.db"
 SALUTATIONS = ["Miss", "Mrs", "Mr", "Ms", "Dr", "Mx", "Prof", "Prosir", "Revdr", "Revrd", "Dame", "Baron"]
 
 db = sqlite3.connect(DATABASE)
-
 cursor = db.cursor()
-
-cursor.execute("SELECT code, conveners FROM modules")
-results = cursor.fetchall()
 
 
 def one_or_none(_results):
@@ -53,6 +58,9 @@ def lookup(name: str):
     else:
         return result[0]
 
+
+cursor.execute("SELECT code, conveners FROM modules")
+results = cursor.fetchall()
 
 for row in results:
     module_code = row[0]
