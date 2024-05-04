@@ -13,10 +13,10 @@
 			<label>
 				Level
 				<select name="level" form="search">
-					<option value="">Any
-						{% for level in ["0", "1", "2", "3", "4", "5"] %}
-							<option {%- if level == level_query %} selected{% endif %}>{{ level }}
-						{% endfor %}
+					<option value="">Any</option>
+					{% for level in ["0", "1", "2", "3", "4", "5"] %}
+						<option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
+					{% endfor %}
 				</select>
 			</label>
 		</div>
@@ -25,15 +25,16 @@
 			<label>
 				Semester
 				<select name="semester" form="search">
-					<option value="">Any
-					<option>Spring UK
-					<option>Autumn UK
-					<option>Full Year UK
+					<option value="">Any</option>
+					{% for semester in ["Spring UK", "Autumn UK"] %}
+						<option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
+					{% endfor %}
 				</select>
 			</label>
 		</div>
 
-		<form id="search" action="/" method="get" hx-boost="true" hx-replace-url="true" hx-swap="innerHTML show:no-scroll">
+		<form id="search" action="/" method="get" hx-boost="true" hx-replace-url="true"
+			  hx-swap="innerHTML show:no-scroll">
 			<label for="name-input">Name</label>
 			<input id="name-input" name="name" value="{{ name_query }}">
 			<button type="submit" class="btn-primary">Search</button>

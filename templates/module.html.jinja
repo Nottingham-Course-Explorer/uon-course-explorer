@@ -34,7 +34,6 @@
 		</tr>
 		</tbody>
 	</table>
-	<progress max="100" value="70"></progress>
 
 	<h2 id="summary">Summary</h2>
 	{{ module.summary }}
@@ -56,28 +55,13 @@
 		<a href="{{ module.url }}">View in Curriculum Catalogue</a>
 	</p>
 
+	{% if "comments" in feature_flags %}
 	<hr/>
 
 	<h2>Comments</h2>
 	<p>
 		Leave a comment to give feedback on this module or correct outdated information.
 	</p>
-
-	<style>
-		progress {
-			border-radius: 7px;
-			height: 3px;
-}
-progress::-webkit-progress-bar {
-  background-color: red;
-    border-radius: 5px;
-}
-progress::-webkit-progress-value {
-  background-color: green;
-	border-bottom-left-radius: 5px;
-	border-top-left-radius: 5px;
-}
-	</style>
 
 	<form id="comment-input-area"
 		  _='on submit
@@ -104,4 +88,5 @@ progress::-webkit-progress-value {
             padding: 0
         }
 	</script>
+	{% endif %}
 {% endblock %}

@@ -10,10 +10,11 @@ app.jinja_env.lstrip_blocks = True
 
 DATABASE = "./modules.db"
 
+FEATURE_FLAGS = []
+
 
 def add_cols(result) -> dict[str, str] | None:
-    return {column_name: result[i] for i, column_name in
-            enumerate(result.keys())} if result is not None else None
+    return {column_name: result[i] for i, column_name in enumerate(result.keys())} if result is not None else None
 
 
 def add_cols_list(result: list) -> list[dict[str, str]] | None:
@@ -45,8 +46,10 @@ def person_page(username: str = None):
     cursor = get_db().cursor()
     cursor.execute("SELECT * FROM staff WHERE username = ?", (username,))
     person = add_cols(cursor.fetchone())
+    
     if person is None:
         abort(404)
+    
     return render_template("person.html.jinja", person=person)
 
 
@@ -55,36 +58,39 @@ def module_page(code: str = None):
     cursor = get_db().cursor()
     cursor.execute("SELECT * FROM modules WHERE code = ?", (code,))
     module = add_cols(cursor.fetchone())
+    
     if module is None:
         abort(404)
+    
     usernames = module["convener_usernames"].split(",")
-    conveners = [
-        {"name": s.strip(), "username": usernames[i]}
-        for i, s in enumerate(module["conveners"].split(","))
-    ]
+    conveners = [{"name": s.strip(), "username": usernames[i]} for i, s in enumerate(module["conveners"].split(","))]
+    
     public_token = hashlib.sha256(bytes(request.remote_addr, "utf-8")).hexdigest()
-    return render_template("module.html.jinja",
-                           module=module,
-                           conveners=conveners,
-                           public_token=public_token,
-                           public_token_short=public_token[0:10])
+    
+    return render_template("module.html.jinja", module=module, conveners=conveners, public_token=public_token,
+                           public_token_short=public_token[0:10], feature_flags=FEATURE_FLAGS)
 
 
 @app.route("/")
 def index():
-    cursor = get_db().cursor()
     name_query = request.args.get("name") or ""
-    cursor.execute("SELECT * FROM modules WHERE title like ?", (f"%{name_query}%",))
+    level_query = request.args.get("level") or ""
+    semester_query = request.args.get("semester") or ""
+    
+    parameters = [f"%{name_query}%"]
+    query = "SELECT * FROM modules WHERE title like ?"
+    if level_query != "":
+        query += " AND level = ?"
+        parameters.append(level_query)
+    if semester_query != "":
+        query += " AND semesters= ?"
+        parameters.append(semester_query)
+    
+    cursor = get_db().cursor()
+    cursor.execute(query, parameters)
     modules = add_cols_list(cursor.fetchall())
-
-    level_query = request.args.get("level")
-
-    semester_query = request.args.get("semester")
-
-    return render_template("index.html.jinja",
-                           modules=modules,
-                           name_query=name_query,
-                           level_query=level_query,
+    
+    return render_template("index.html.jinja", modules=modules, name_query=name_query, level_query=level_query,
                            semester_query=semester_query)
 
 
