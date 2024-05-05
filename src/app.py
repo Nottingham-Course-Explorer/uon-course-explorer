@@ -1,5 +1,6 @@
-from flask import Flask, render_template, g, request
 from urllib.parse import urlencode
+
+from flask import Flask, render_template, g, request
 
 import index
 import module
@@ -17,7 +18,7 @@ def modify_parameters(**new_values):
     
     for parameter, value in new_values.items():
         args[parameter] = value
-        
+    
     return f"{request.path}?{urlencode(args)}"
 
 
@@ -36,7 +37,6 @@ def page_not_found(error):
 app.add_url_rule("/person/<username>", view_func=person.person_page)
 app.add_url_rule("/module/<code>", view_func=module.module_page)
 app.add_url_rule("/", view_func=index.index_page)
-
 
 if __name__ == '__main__':
     app.run()

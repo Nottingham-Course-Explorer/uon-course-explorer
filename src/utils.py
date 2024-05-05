@@ -2,15 +2,16 @@ import sqlite3
 
 from flask import g
 
-from config import DATABASE
+from constants import DATABASE
 
 
-def add_cols(result) -> dict[str, str] | None:
-    return {column_name: result[i] for i, column_name in enumerate(result.keys())} if result is not None else None
+def add_cols(result: dict[int, str] | None) -> dict[str, str] | None:
+    return None if result is None else {column_name: result[i] for i, column_name in
+                                        enumerate(result.keys())}
 
 
-def add_cols_list(result: list) -> list[dict[str, str]] | None:
-    return [add_cols(i) for i in result] if result is not None else None
+def add_cols_list(results: list[dict[int, str]] | None) -> list[dict[str, str]] | None:
+    return None if results is None else [add_cols(result) for result in results]
 
 
 def get_db():
