@@ -11,6 +11,10 @@ app.url_map.strict_slashes = False
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
 
+app.add_url_rule("/person/<username>", view_func=person.person_page)
+app.add_url_rule("/module/<code>", view_func=module.module_page)
+app.add_url_rule("/", view_func=index.index_page)
+
 
 @app.template_global()
 def modify_parameters(**new_values):
@@ -23,7 +27,7 @@ def modify_parameters(**new_values):
 
 
 @app.teardown_appcontext
-def close_connection(exception):
+def close_db(exception):
     db = getattr(g, "_database", None)
     if db is not None:
         db.close()
@@ -33,10 +37,6 @@ def close_connection(exception):
 def page_not_found(error):
     return render_template("404.html.jinja"), 404
 
-
-app.add_url_rule("/person/<username>", view_func=person.person_page)
-app.add_url_rule("/module/<code>", view_func=module.module_page)
-app.add_url_rule("/", view_func=index.index_page)
 
 if __name__ == '__main__':
     app.run()

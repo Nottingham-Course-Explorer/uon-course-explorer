@@ -1,6 +1,6 @@
 from flask import request, render_template
 
-from utils import get_db, add_cols_list
+from utils import get_db, add_column_names_list
 
 MODULES_PER_PAGE = 20
 
@@ -10,8 +10,9 @@ def index_page():
     level = request.args.get("level", "")
     semester = request.args.get("semester", "")
     
+    # Assemble SQL query
     parameters = [f"%{name}%"]
-    terms = ""
+    terms = "WHERE title LIKE ? "
     if level != "":
         terms += "AND level = ? "
         parameters.append(level)
@@ -21,9 +22,9 @@ def index_page():
     
     cursor = get_db().cursor()
     
-    # Count all results of query, without pagination
-    count_query = f"SELECT COUNT(code) FROM modules WHERE title like ? {terms}"
-    cursor.execute(count_query, parameters)
+    # Count all results of query without pagination
+    query = f"SELECT COUNT(code) FROM modules {terms}"
+    cursor.execute(query, parameters)
     count = cursor.fetchone()[0]
     
     # Calculate pagination
@@ -32,10 +33,10 @@ def index_page():
     offset = (page - 1) * MODULES_PER_PAGE
     
     # Perform query with pagination
-    query = (f"SELECT * FROM modules WHERE title like ? {terms}"
+    query = (f"SELECT * FROM modules {terms}"
              f"ORDER BY title LIMIT {MODULES_PER_PAGE} OFFSET {offset}")
     cursor.execute(query, parameters)
-    modules = add_cols_list(cursor.fetchall())
+    modules = add_column_names_list(cursor.fetchall())
     
     return render_template("index.html.jinja",
                            modules=modules,

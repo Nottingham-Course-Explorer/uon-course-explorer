@@ -1,22 +1,32 @@
 import sqlite3
+from sqlite3 import Row, Connection
 
 from flask import g
 
 from constants import DATABASE
 
 
-def add_cols(result: dict[int, str] | None) -> dict[str, str] | None:
+def add_column_names(result: Row | None) -> dict[str, str] | None:
+    """
+    Transforms a result dictionary from {0: "value"} to {"column": "value"}
+    """
     return None if result is None else {column_name: result[i] for i, column_name in
                                         enumerate(result.keys())}
 
 
-def add_cols_list(results: list[dict[int, str]] | None) -> list[dict[str, str]] | None:
-    return None if results is None else [add_cols(result) for result in results]
+def add_column_names_list(results: list[Row] | None) -> list[dict[str, str]] | None:
+    """
+    Transforms a list of result dictionaries from {0: "value"} to {"column": "value"}
+    """
+    return None if results is None else [add_column_names(result) for result in results]
 
 
-def get_db():
+def get_db() -> Connection:
+    """
+    Try to get an existing database connection, otherwise open one.
+    """
     db = getattr(g, "_database", None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
-        db.row_factory = sqlite3.Row
+        db.row_factory = Row
     return db
