@@ -2,6 +2,7 @@ import hashlib
 import sqlite3
 
 from flask import Flask, render_template, g, abort, request
+from urllib.parse import urlencode
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -11,6 +12,16 @@ app.jinja_env.lstrip_blocks = True
 DATABASE = "./modules.db"
 
 FEATURE_FLAGS = []
+
+
+@app.template_global()
+def modify_parameters(**new_values):
+    args = request.args.copy()
+    
+    for parameter, value in new_values.items():
+        args[parameter] = value
+        
+    return f"{request.path}?{urlencode(args)}"
 
 
 def add_cols(result) -> dict[str, str] | None:
@@ -71,27 +82,43 @@ def module_page(code: str = None):
                            public_token_short=public_token[0:10], feature_flags=FEATURE_FLAGS)
 
 
+MODULES_PER_PAGE = 20
+
+
 @app.route("/")
 def index():
-    name_query = request.args.get("name") or ""
-    level_query = request.args.get("level") or ""
-    semester_query = request.args.get("semester") or ""
+    name = request.args.get("name", "")
+    level = request.args.get("level", "")
+    semester = request.args.get("semester", "")
     
-    parameters = [f"%{name_query}%"]
-    query = "SELECT * FROM modules WHERE title like ?"
-    if level_query != "":
-        query += " AND level = ?"
-        parameters.append(level_query)
-    if semester_query != "":
-        query += " AND semesters= ?"
-        parameters.append(semester_query)
+    parameters = [f"%{name}%"]
+    terms = ""
+    if level != "":
+        terms += " AND level = ?"
+        parameters.append(level)
+    if semester != "":
+        terms += " AND semesters LIKE ?"
+        parameters.append(f"%{semester}%")
     
     cursor = get_db().cursor()
+    
+    # Count all results of query, without pagination
+    count_query = f"SELECT COUNT(code) FROM modules WHERE title like ?{terms}"
+    cursor.execute(count_query, parameters)
+    count = cursor.fetchone()[0]
+    
+    # Calculate pagination
+    pages = max(int((count + MODULES_PER_PAGE - 1) / MODULES_PER_PAGE), 1)
+    page = max(min(request.args.get("page", 1, type=int), pages), 1)
+    offset = (page - 1) * MODULES_PER_PAGE
+    
+    # Perform query with pagination
+    query = f"SELECT * FROM modules WHERE title like ?{terms} ORDER BY title LIMIT {MODULES_PER_PAGE} OFFSET {offset}"
     cursor.execute(query, parameters)
     modules = add_cols_list(cursor.fetchall())
     
-    return render_template("index.html.jinja", modules=modules, name_query=name_query, level_query=level_query,
-                           semester_query=semester_query)
+    return render_template("index.html.jinja", modules=modules, name_query=name, level_query=level,
+                           semester_query=semester, page=page, pages=pages)
 
 
 if __name__ == '__main__':
