@@ -13,7 +13,6 @@
 			<td>School</td>
 			<td>Level</td>
 			<td>Credits</td>
-			<td>Year</td>
 			<td>Semesters</td>
 		</tr>
 		</thead>
@@ -23,13 +22,12 @@
 			<td>{{ module.school }}</td>
 			<td>{{ module.level }}</td>
 			<td>
-				{% if module.credits != 0 %}
+				{%- if module.credits != 0 -%}
 					{{ module.credits }}
-				{% else %}
+				{%- else -%}
 					N/A
-				{% endif %}
+				{%- endif -%}
 			</td>
-			<td>{{ module.year }}</td>
 			<td>{{ module.semesters }}</td>
 		</tr>
 		</tbody>

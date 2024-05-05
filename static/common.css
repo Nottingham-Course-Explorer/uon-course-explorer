@@ -15,7 +15,7 @@ body {
 	max-width: 750px;
 	margin: 40px auto;
 	padding: 0 10px;
-	font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font: 18px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	color: #444;
 }
 
@@ -55,14 +55,12 @@ dl {
 dt {
     display: table-cell;
     font-weight: bold;
+    padding: 10px 0 10px 0;
 }
 
 dd {
     display: table-cell;
-}
-
-dt, dd {
-    padding: 10px 0 10px 0;
+    padding: 10px 10px 10px;
 }
 
 .summary-list-row {

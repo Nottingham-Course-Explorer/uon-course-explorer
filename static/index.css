@@ -24,3 +24,22 @@
 #select-semester {
     grid-area: select-semester;
 }
+
+#pagination {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 30px 10px 10px 10px;
+}
+
+#previous-page-grid {
+    text-align: right;
+}
+
+#page-info-grid {
+    text-align: center;
+}
+
+#next-page-grid {
+    text-align: left;
+}

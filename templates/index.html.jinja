@@ -1,5 +1,6 @@
 {% extends "base.html.jinja" %}
-{% block title %}Index{% endblock %}
+{% block title %}Module Search{% endblock %}
+{% block description %}Search for University of Nottingham modules.{% endblock %}
 {% block head %}
 	{{ super() }}
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
@@ -33,8 +34,7 @@
 			</label>
 		</div>
 
-		<form id="search" action="/" method="get" hx-boost="true" hx-replace-url="true"
-			  hx-swap="innerHTML show:no-scroll">
+		<form id="search" action="/" method="get" hx-boost="true" hx-swap="innerHTML show:no-scroll">
 			<label for="name-input">Name</label>
 			<input id="name-input" name="name" value="{{ name_query }}">
 			<button type="submit" class="btn-primary">Search</button>
@@ -67,25 +67,40 @@
 		{% for module in modules %}
 			<tr>
 				<td>
-					{{ module.code }}
+					{{- module.code -}}
 				</td>
 				<td>
 					<a href="{{ url_for("module_page", code=module.code) }}">
-						{{ module.title }}
+						{{- module.title -}}
 					</a>
 				</td>
 				<td>
-					{% if module.credits != 0 %}
-						{{ module.credits }}
-					{% else %}
+					{%- if module.credits != 0 %}
+						{{- module.credits -}}
+					{%- else -%}
 						N/A
-					{% endif %}
+					{%- endif -%}
 				</td>
 				<td>
-					{{ module.level }}
+					{{- module.level -}}
 				</td>
 			</tr>
 		{% endfor %}
 		</tbody>
 	</table>
+	<nav id="pagination">
+		<div id="previous-page-grid">
+			{% if page != 1 %}
+				<a href="{{ modify_parameters(page=page - 1) }}">Previous Page</a>
+			{% endif %}
+		</div>
+		<div id="page-info-grid">
+			Page {{ page }} of {{ pages }}
+		</div>
+		<div id="next-page-grid">
+			{% if page != pages %}
+				<a href="{{ modify_parameters(page=page + 1) }}">Next Page</a>
+			{% endif %}
+		</div>
+	</nav>
 {% endblock %}
