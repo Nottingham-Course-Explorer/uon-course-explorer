@@ -21,6 +21,13 @@ def add_column_names_list(results: list[Row] | None) -> list[dict[str, str]] | N
     return None if results is None else [add_column_names(result) for result in results]
 
 
+def parse_table(text: str, columns: int) -> list[list[str]]:
+    if text == "":
+        return []
+    items = text.split("|")
+    return [items[i:i + columns] for i in range(0, len(items), columns)]
+
+
 def get_db() -> Connection:
     """
     Try to get an existing database connection, otherwise open one.

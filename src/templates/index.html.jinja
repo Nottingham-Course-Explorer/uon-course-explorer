@@ -10,12 +10,23 @@
 
 	<!-- Search area -->
 	<div id="search-area">
+		<div id="select-school">
+			<label>
+				School
+				<select name="school" form="search" style="max-width: 305px">
+					{% for school in school_options %}
+						<option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
+					{% endfor %}
+				</select>
+			</label>
+		</div>
+
 		<div id="select-level">
 			<label>
 				Level
 				<select name="level" form="search">
 					<option value="">Any</option>
-					{% for level in ["0", "1", "2", "3", "4", "5"] %}
+					{% for level in level_options %}
 						<option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
 					{% endfor %}
 				</select>
@@ -25,9 +36,9 @@
 		<div id="select-semester">
 			<label>
 				Semester
-				<select name="semester" form="search">
+				<select name="semester" form="search" style="max-width: 150px">
 					<option value="">Any</option>
-					{% for semester in ["Spring UK", "Autumn UK"] %}
+					{% for semester in semester_options %}
 						<option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
 					{% endfor %}
 				</select>

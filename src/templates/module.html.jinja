@@ -35,8 +35,44 @@
 
 	<h2 id="summary">Summary</h2>
 	{{ module.summary }}
-	<div>
-		Convened by:
+
+	<h2>Target Students</h2>
+	<p>
+		{{ module.target_students }}
+	</p>
+
+	{% if module.additional_requirements not in ["-", "", "-."] %}
+		<h2 id="additional-requirements">Additional Requirements</h2>
+		{{ module.additional_requirements }}
+	{% endif %}
+
+	{% if classes|length > 0 or module.classes_info != "" %}
+		<h2 id="classes">Classes</h2>
+		<ul>
+			{% for i in classes %}
+				<li>{{ i }}</li>
+			{% endfor %}
+		</ul>
+		<p>{{ module.classes_info }}</p>
+	{% endif %}
+
+	<h2 id="assessment">Assessment</h2>
+	<ul>
+		{% for i in assessment %}
+			<li>{{ i[1] }} {{ i[2] }}{% if i[3] != "" %} ({{ i[3] }}){% endif %}: {{ i[4] }}</li>
+		{% endfor %}
+	</ul>
+
+	{% if module.educational_aims != "" %}
+		<h2 id="educational-aims">Educational Aims</h2>
+		{{ module.educational_aims }}
+	{% endif %}
+
+	<h2 id="learning-outcomes">Learning Outcomes</h2>
+	{{ module.learning_outcomes }}
+
+	<h2 id="conveners">Conveners</h2>
+	{% if conveners|length > 0 %}
 		<ul>
 			{% for convener in conveners %}
 				<li>
@@ -48,43 +84,49 @@
 				</li>
 			{% endfor %}
 		</ul>
+	{% else %}
+		Conveners unspecified.
+	{% endif %}
+
+	<div style="margin-top: 32px; margin-bottom: 32px; display: grid; grid-template-rows: auto; grid-template-columns: auto auto">
+		<div>
+			<a href="{{ module.crawl_url }}">View in Curriculum Catalogue</a>
+		</div>
+		<div style="text-align: right">Last updated {{ crawl_time }}.</div>
 	</div>
-	<p>
-		<a href="{{ module.url }}">View in Curriculum Catalogue</a>
-	</p>
 
 	{% if "comments" in feature_flags %}
-	<hr/>
+		<hr/>
 
-	<h2>Comments</h2>
-	<p>
-		Leave a comment to give feedback on this module or correct outdated information.
-	</p>
+		<h2>Comments</h2>
+		<p>
+			Leave a comment to give feedback on this module or correct outdated information.
+		</p>
 
-	<form id="comment-input-area"
-		  _='on submit
+		<form id="comment-input-area"
+			  _='on submit
              halt the event
              call alert("Hello, world!")'>
-		<div id="identicon">
-			<div title="{{ public_token_short }}">
-				<svg width="60" height="60" data-jdenticon-value="{{ public_token }}"></svg>
+			<div id="identicon">
+				<div title="{{ public_token_short }}">
+					<svg width="60" height="60" data-jdenticon-value="{{ public_token }}"></svg>
+				</div>
 			</div>
-		</div>
-		<textarea id="textarea" maxlength="280" style="height: 81px">This course provides a basic course in algebra and calculus required for data science. It introduces key elements of definition, manipulation, graphical This course provides a basic course in algebra and calculus required for data science. </textarea>
-		<div id="actions">
-			<button class="btn-primary">Post</button>
-		</div>
-	</form>
+			<textarea id="textarea" maxlength="280" style="height: 81px">This course provides a basic course in algebra and calculus required for data science. It introduces key elements of definition, manipulation, graphical This course provides a basic course in algebra and calculus required for data science. </textarea>
+			<div id="actions">
+				<button class="btn-primary">Post</button>
+			</div>
+		</form>
 
-	<!-- Jdenticon -->
-	<script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
-			integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
-			crossorigin="anonymous">
-	</script>
-	<script lang="js">
-        window.jdenticon_config = {
-            padding: 0
-        }
-	</script>
+		<!-- Jdenticon -->
+		<script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
+				integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
+				crossorigin="anonymous">
+		</script>
+		<script lang="js">
+            window.jdenticon_config = {
+                padding: 0
+            }
+		</script>
 	{% endif %}
 {% endblock %}

@@ -10,7 +10,7 @@ conveners with the names obtained from the Staff Lookup API, and writes their us
 Staff Lookup results are the mentioned person.
 """
 
-DATABASE = "../modules.db"
+DATABASE = "../../modules.db"
 SALUTATIONS = ["Miss", "Mrs", "Mr", "Ms", "Dr", "Mx", "Prof", "Prosir", "Revdr", "Revrd", "Dame", "Baron"]
 
 db = sqlite3.connect(DATABASE)

@@ -1,18 +1,26 @@
 from flask import request, render_template
 
 from utils import get_db, add_column_names_list
+import json
 
 MODULES_PER_PAGE = 20
+
+with open("search_options.json") as file:
+    search_options = json.loads(file.read())
+    LEVEL_OPTIONS = search_options["levels"]
+    SEMESTER_OPTIONS = search_options["semesters"]
+    SCHOOL_OPTIONS = search_options["schools"]
 
 
 def index_page():
     name = request.args.get("name", "")
     level = request.args.get("level", "")
     semester = request.args.get("semester", "")
+    school = request.args.get("school", SCHOOL_OPTIONS[0])
     
     # Assemble SQL query
-    parameters = [f"%{name}%"]
-    terms = "WHERE title LIKE ? "
+    parameters = [f"%{name}%", school]
+    terms = "WHERE title LIKE ? AND SCHOOL = ?"
     if level != "":
         terms += "AND level = ? "
         parameters.append(level)
@@ -38,7 +46,15 @@ def index_page():
     cursor.execute(query, parameters)
     modules = add_column_names_list(cursor.fetchall())
     
+    # Notes about data:
+    # - Sometimes Target Students and Additional Requirements text are exactly the same.
+    #   Maybe don't show Additional Requirements if this is the case.
+    # - Sometimes there are no conveners listed.
+    
     return render_template("index.html.jinja",
                            modules=modules,
-                           name_query=name, level_query=level, semester_query=semester,
+                           name_query=name,
+                           level_query=level, level_options=LEVEL_OPTIONS,
+                           semester_query=semester, semester_options=SEMESTER_OPTIONS,
+                           school_query=school, school_options=SCHOOL_OPTIONS,
                            page=page, pages=pages)

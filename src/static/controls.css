@@ -39,6 +39,9 @@ button {
     background-color: #006e3a;
     box-shadow: 0 2px #002b17;
 }
+.btn-primary:hover {
+    background-color: #005A30;
+}
 
 @media (prefers-color-scheme: dark) {
     textarea {
