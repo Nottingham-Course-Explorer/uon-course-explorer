@@ -5,7 +5,7 @@ import json
 
 MODULES_PER_PAGE = 20
 
-with open("search_options.json") as file:
+with open("../search_options.json") as file:
     search_options = json.loads(file.read())
     LEVEL_OPTIONS = search_options["levels"]
     SEMESTER_OPTIONS = search_options["semesters"]
