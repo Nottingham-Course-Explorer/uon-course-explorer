@@ -1,6 +1,7 @@
-import os
 import sqlite3
 from functools import cache
+
+from config import DATABASE
 
 """This script goes through all the modules and attempts to associate the names of the module
 conveners with the names obtained from the Staff Lookup API, and writes their usernames.
@@ -14,7 +15,7 @@ Staff Lookup results are the mentioned person.
 SALUTATIONS = ["Miss", "Mrs", "Mr", "Ms", "Dr", "Mx", "Prof", "Prosir", "Revdr", "Revrd", "Dame",
                "Baron"]
 
-db = sqlite3.connect(os.environ["UON_MODULES_DB"])
+db = sqlite3.connect(DATABASE)
 cursor = db.cursor()
 
 

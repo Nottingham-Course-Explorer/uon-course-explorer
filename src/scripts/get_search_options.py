@@ -1,8 +1,9 @@
 import json
-import os
 import sqlite3
 
-db = sqlite3.connect(os.environ["UON_MODULES_DB"])
+from config import DATABASE
+
+db = sqlite3.connect(DATABASE)
 cursor = db.cursor()
 
 cursor.execute("SELECT DISTINCT school FROM modules ORDER BY school")

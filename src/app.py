@@ -33,10 +33,6 @@ def page_not_found(error):
     return render_template("404.html.jinja"), 404
 
 
-def get_app():
-    return app
-
-
 app.url_map.strict_slashes = False
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
