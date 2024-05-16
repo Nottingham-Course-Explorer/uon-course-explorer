@@ -11,6 +11,10 @@ echo "Installing requirements..."
 pip install -r requirements.txt
 
 echo "Telling Flask it is behind a proxy..."
-touch src/proxy
+touch proxy
 
-
+echo "Creating service config..."
+cat > uon-ce.service <<EOF
+Directory=${PWD}
+User=${USER}
+EOF

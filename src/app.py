@@ -9,16 +9,6 @@ import module
 import person
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
-app.jinja_env.trim_blocks = True
-app.jinja_env.lstrip_blocks = True
-
-app.add_url_rule("/person/<username>", view_func=person.person_page)
-app.add_url_rule("/module/<code>", view_func=module.module_page)
-app.add_url_rule("/", view_func=index.index_page)
-
-if Path("proxy").is_file():
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1, x_prefix=1)
 
 
 @app.template_global()
@@ -42,6 +32,21 @@ def close_db(exception):
 def page_not_found(error):
     return render_template("404.html.jinja"), 404
 
+
+def get_app():
+    return app
+
+
+app.url_map.strict_slashes = False
+app.jinja_env.trim_blocks = True
+app.jinja_env.lstrip_blocks = True
+
+app.add_url_rule("/person/<username>", view_func=person.person_page)
+app.add_url_rule("/module/<code>", view_func=module.module_page)
+app.add_url_rule("/", view_func=index.index_page)
+
+if Path("../proxy").is_file():
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1, x_prefix=1)
 
 if __name__ == '__main__':
     app.run()
