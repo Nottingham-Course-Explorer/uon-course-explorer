@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from functools import cache
 
@@ -10,10 +11,10 @@ conveners with the names obtained from the Staff Lookup API, and writes their us
 Staff Lookup results are the mentioned person.
 """
 
-DATABASE = "../../modules.db"
-SALUTATIONS = ["Miss", "Mrs", "Mr", "Ms", "Dr", "Mx", "Prof", "Prosir", "Revdr", "Revrd", "Dame", "Baron"]
+SALUTATIONS = ["Miss", "Mrs", "Mr", "Ms", "Dr", "Mx", "Prof", "Prosir", "Revdr", "Revrd", "Dame",
+               "Baron"]
 
-db = sqlite3.connect(DATABASE)
+db = sqlite3.connect(os.environ["UON_MODULES_DB"])
 cursor = db.cursor()
 
 
@@ -44,13 +45,15 @@ def lookup(name: str):
     name = name.replace("_", " ").title()
     forename, surname = name.split(" ", 1)
     middle: bool = len(surname.split(" ")) > 1
-    cursor.execute("SELECT username FROM staff WHERE forename = ? AND surname = ?", (forename, surname))
+    cursor.execute("SELECT username FROM staff WHERE forename = ? AND surname = ?",
+                   (forename, surname))
     result = one_or_none(cursor.fetchall())
     
     if result is None and middle:
         print(f"Can't find username for {forename} | {surname}, trying [-1] of surname...")
         surname = surname.split(" ")[-1]
-        cursor.execute("SELECT username FROM staff WHERE forename = ? AND surname = ?", (forename, surname))
+        cursor.execute("SELECT username FROM staff WHERE forename = ? AND surname = ?",
+                       (forename, surname))
         result = one_or_none(cursor.fetchall())
     if result is None:
         print(f"ERROR: Couldn't find {forename} | {surname}")
