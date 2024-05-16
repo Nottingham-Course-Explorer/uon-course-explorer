@@ -1,6 +1,8 @@
-from flask import abort, render_template
 from datetime import datetime, timezone
-from constants import FEATURE_FLAGS
+
+from flask import abort, render_template
+
+from config import FEATURE_FLAGS
 from utils import add_column_names, get_db, parse_table
 
 
@@ -31,8 +33,9 @@ def module_page(code: str = None):
     assessment = parse_table(module["assessment"], 5)
     for i in assessment:
         i[1] = f"{int(float(i[1]))}%"
-    crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime("%d/%m/%Y")
-
+    crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime(
+        "%d/%m/%Y")
+    
     # public_token = sha256(bytes(request.remote_addr, "utf-8")).hexdigest()
     
     return render_template("module.html.jinja",

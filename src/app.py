@@ -1,6 +1,8 @@
 from urllib.parse import urlencode
 
 from flask import Flask, render_template, g, request
+from werkzeug.middleware.proxy_fix import ProxyFix
+from pathlib import Path
 
 import index
 import module
@@ -14,6 +16,9 @@ app.jinja_env.lstrip_blocks = True
 app.add_url_rule("/person/<username>", view_func=person.person_page)
 app.add_url_rule("/module/<code>", view_func=module.module_page)
 app.add_url_rule("/", view_func=index.index_page)
+
+if Path("proxy").is_file():
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1, x_prefix=1)
 
 
 @app.template_global()
