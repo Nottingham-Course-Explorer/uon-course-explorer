@@ -1,3 +1,4 @@
+**/__pycache__/
 .idea/workspace.xml
 .venv/
 proxy
