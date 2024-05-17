@@ -6,7 +6,8 @@
 {% endblock %}
 {% block main %}
 	<h1>{{ module.title }}</h1>
-	<table style="width: 100%">
+
+	<table id="display-details-horizontal" style="width: 100%">
 		<thead>
 		<tr>
 			<td>Code</td>
@@ -32,6 +33,34 @@
 		</tr>
 		</tbody>
 	</table>
+	<dl id="display-details-vertical">
+		<div class="summary-list-row">
+			<dt>Code</dt>
+			<dd>{{ module.code }}</dd>
+		</div>
+		<div class="summary-list-row">
+			<dt>School</dt>
+			<dd>{{ module.school }}</dd>
+		</div>
+		<div class="summary-list-row">
+			<dt>Level</dt>
+			<dd>{{ module.level }}</dd>
+		</div>
+		<div class="summary-list-row">
+			<dt>Credits</dt>
+			<dd>
+				{%- if module.credits != 0 -%}
+					{{ module.credits }}
+				{%- else -%}
+					N/A
+				{%- endif -%}
+			</dd>
+		</div>
+		<div class="summary-list-row">
+			<dt>Semesters</dt>
+			<dd>{{ module.semesters }}</dd>
+		</div>
+	</dl>
 
 	<h2 id="summary">Summary</h2>
 	{{ module.summary }}

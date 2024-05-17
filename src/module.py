@@ -31,8 +31,9 @@ def module_page(code: str = None):
     
     classes = [format_class(class_) for class_ in parse_table(module["classes"], 4)]
     assessment = parse_table(module["assessment"], 5)
-    for i in assessment:
-        i[1] = f"{int(float(i[1]))}%"
+    for row in assessment:
+        # Format weight
+        row[1] = f"{int(float(row[1]))}%" if row[1].strip() != "" else ""
     crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime(
         "%d/%m/%Y")
     

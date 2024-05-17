@@ -20,3 +20,21 @@
 #actions {
     grid-area: actions;
 }
+
+#display-details-vertical {
+    dd {
+        width: 100%;
+    }
+}
+
+@media (width >= 600px) {
+    #display-details-vertical {
+        display: none;
+    }
+}
+
+@media (width < 600px) {
+    #display-details-horizontal {
+        display: none;
+    }
+}
