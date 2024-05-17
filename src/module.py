@@ -14,13 +14,13 @@ def format_class(class_: list[str]) -> str:
         return f"One {duration} {class_type}"
     per_week = int(per_week_str.split(" ")[0])
     return (f"{digit_to_word(per_week).title()} {duration} "
-            f"{class_type}{"s" if per_week > 1 else ""} per week for {number}")
+            f"{class_type}{'s' if per_week > 1 else ''} per week for {number}")
 
 
 def format_assessment(assessment_: list[str]) -> str:
     title, weight, type_, duration, requirements = assessment_
     weight = f"{int(float(weight))}%" if weight.strip() else ""
-    duration_str = f" ({duration.replace("Hr", "-hour")})" if duration.strip() else ""
+    duration_str = f" ({duration.replace('Hr', '-hour')})" if duration.strip() else ""
     return f"{weight} {title}{duration_str}: {requirements}"
 
 
