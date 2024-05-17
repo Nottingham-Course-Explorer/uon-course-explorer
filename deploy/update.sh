@@ -6,3 +6,5 @@ if [[ -n "$(git log origin/main ^main)" ]]; then
   git rebase origin/main
   sudo systemctl restart uon-ce
 fi
+
+sudo systemctl is-active uon-ce || sudo systemctl restart uon-ce
