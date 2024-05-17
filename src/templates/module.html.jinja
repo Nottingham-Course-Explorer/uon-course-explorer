@@ -70,7 +70,7 @@
 		{{ module.target_students }}
 	</p>
 
-	{% if module.additional_requirements not in ["-", "", "-."] %}
+	{% if module.additional_requirements not in ["-", "", "-."] and module.additional_requirements != module.target_students %}
 		<h2 id="additional-requirements">Additional Requirements</h2>
 		{{ module.additional_requirements }}
 	{% endif %}
@@ -78,8 +78,8 @@
 	{% if classes|length > 0 or module.classes_info != "" %}
 		<h2 id="classes">Classes</h2>
 		<ul>
-			{% for i in classes %}
-				<li>{{ i }}</li>
+			{% for text in classes %}
+				<li>{{ text }}</li>
 			{% endfor %}
 		</ul>
 		<p>{{ module.classes_info }}</p>
@@ -87,8 +87,8 @@
 
 	<h2 id="assessment">Assessment</h2>
 	<ul>
-		{% for i in assessment %}
-			<li>{{ i[1] }} {{ i[2] }}{% if i[3] != "" %} ({{ i[3] }}){% endif %}: {{ i[4] }}</li>
+		{% for text in assessments %}
+			<li>{{ text }}</li>
 		{% endfor %}
 	</ul>
 
@@ -117,11 +117,11 @@
 		Conveners unspecified.
 	{% endif %}
 
-	<div style="margin-top: 32px; margin-bottom: 32px; display: grid; grid-template-rows: auto; grid-template-columns: auto auto">
+	<div id="bottom-area">
 		<div>
 			<a href="{{ module.crawl_url }}">View in Curriculum Catalogue</a>
 		</div>
-		<div style="text-align: right">Last updated {{ crawl_time }}.</div>
+		<div id="last-updated">Last updated {{ crawl_time }}.</div>
 	</div>
 
 	{% if "comments" in feature_flags %}

@@ -3,17 +3,25 @@ from datetime import datetime, timezone
 from flask import abort, render_template
 
 from config import FEATURE_FLAGS
-from utils import add_column_names, get_db, parse_table
+from utils import add_column_names, get_db, parse_table, digit_to_word
 
 
 def format_class(class_: list[str]) -> str:
-    class_type, number, every, duration = class_
+    class_type, number, per_week_str, duration = class_
     duration = duration.replace("hours", "hour").replace(" ", "-")
     class_type = class_type.lower()
     if number == "1 week":
         return f"One {duration} {class_type}"
-    every = every.replace("1 week", "week")
-    return f"{duration} {class_type} every {every} for {number}"
+    per_week = int(per_week_str.split(" ")[0])
+    return (f"{digit_to_word(per_week).title()} {duration} "
+            f"{class_type}{"s" if per_week > 1 else ""} per week for {number}")
+
+
+def format_assessment(assessment_: list[str]) -> str:
+    title, weight, type_, duration, requirements = assessment_
+    weight = f"{int(float(weight))}%" if weight.strip() else ""
+    duration_str = f" ({duration.replace("Hr", "-hour")})" if duration.strip() else ""
+    return f"{weight} {title}{duration_str}: {requirements}"
 
 
 def module_page(code: str = None):
@@ -30,10 +38,8 @@ def module_page(code: str = None):
         enumerate(module["conveners"].split(","))]
     
     classes = [format_class(class_) for class_ in parse_table(module["classes"], 4)]
-    assessment = parse_table(module["assessment"], 5)
-    for row in assessment:
-        # Format weight
-        row[1] = f"{int(float(row[1]))}%" if row[1].strip() != "" else ""
+    assessments = [format_assessment(assessment) for assessment in
+                   parse_table(module["assessment"], 5)]
     crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime(
         "%d/%m/%Y")
     
@@ -43,7 +49,7 @@ def module_page(code: str = None):
                            module=module,
                            conveners=conveners,
                            classes=classes,
-                           assessment=assessment,
+                           assessments=assessments,
                            crawl_time=crawl_time,
                            # public_token=public_token,
                            # public_token_short=public_token[0:10],

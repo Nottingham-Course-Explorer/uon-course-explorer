@@ -38,3 +38,24 @@
         display: none;
     }
 }
+
+#bottom-area {
+    margin-top: 32px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: auto auto;
+}
+#last-updated {
+    text-align: right;
+}
+@media (width < 550px) {
+    #bottom-area {
+        grid-template-rows: auto auto;
+        grid-template-columns: auto;
+        grid-row-gap: 20px;
+    }
+    #last-updated {
+        text-align: left;
+    }
+}
