@@ -1,30 +1,45 @@
 #search-area {
     display: grid;
     grid-template-areas:
-            "select-school select-level select-semester"
-            "search go-to-module go-to-module";
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto auto;
-    column-gap: 10px;
+            "school-label school school level-label select-level semester-label select-semester"
+            "name-label name-input name-button go-to-module go-to-module go-to-module go-to-module";
+    grid-template-columns: auto auto 90px auto auto auto 150px;
+    grid-template-rows: auto auto;
+    column-gap: 5px;
     row-gap: 10px;
 }
 
-#search {
-    grid-area: search;
+#name-input {
+    grid-area: name-input;
+}
+#name-label {
+    grid-area: name-label;
+}
+#name-button {
+    grid-area: name-button;
 }
 
 #go-to-module {
     grid-area: go-to-module;
 }
 
+#level-label {
+    grid-area: level-label;
+}
 #select-level {
    grid-area: select-level;
 }
 
-#select-school {
-    grid-area: select-school;
+#school-wrap {
+    grid-area: school;
+}
+#school-label {
+    grid-area: school-label;
 }
 
+#semester-label {
+    grid-area: semester-label;
+}
 #select-semester {
     grid-area: select-semester;
 }

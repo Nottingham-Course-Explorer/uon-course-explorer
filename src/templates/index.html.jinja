@@ -10,47 +10,49 @@
 
 	<!-- Search area -->
 	<div id="search-area">
-		<div id="select-school">
-			<label>
-				School
-				<select name="school" form="search" style="max-width: 305px">
-					{% for school in school_options %}
-						<option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
-					{% endfor %}
-				</select>
-			</label>
+		<label for="school" id="school-label">
+			School
+		</label>
+		<div id="school-wrap">
+			<select id="school" name="school" form="search" style="max-width: 100%">
+				{% for school in school_options %}
+					<option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
+				{% endfor %}
+			</select>
 		</div>
 
+		<label id="level-label" for="level">
+			Level
+		</label>
 		<div id="select-level">
-			<label>
-				Level
-				<select name="level" form="search">
-					<option value="">Any</option>
-					{% for level in level_options %}
-						<option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
-					{% endfor %}
-				</select>
-			</label>
+			<select id="level" name="level" form="search">
+				<option value="">Any</option>
+				{% for level in level_options %}
+					<option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
+				{% endfor %}
+			</select>
 		</div>
 
+		<label id="semester-label" for="semester">
+			Semester
+		</label>
 		<div id="select-semester">
-			<label>
-				Semester
-				<select name="semester" form="search" style="max-width: 150px">
-					<option value="">Any</option>
-					{% for semester in semester_options %}
-						<option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
-					{% endfor %}
-				</select>
-			</label>
+			<select id="semester" name="semester" form="search" style="max-width: 100%">
+				<option value="">Any</option>
+				{% for semester in semester_options %}
+					<option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
+				{% endfor %}
+			</select>
 		</div>
 
 		<form id="search" action="/" method="get" hx-boost="true" hx-swap="innerHTML show:no-scroll">
-			<label for="name-input">Name</label>
-			<input id="name-input" name="name" value="{{ name_query }}">
-			<button type="submit" class="btn-primary">Search</button>
 		</form>
 
+		<label for="name-input" id="name-label">Title</label>
+		<input form="search" id="name-input" name="name" value="{{ name_query }}">
+		<button form="search" id="name-button" type="submit" class="btn-primary">Search</button>
+
+		<!--
 		<form id="go-to-module"
 			  _="on submit
                 halt the event
@@ -62,6 +64,7 @@
 			<input id="code-input" name="code">
 			<button type="submit" class="btn-primary">Go</button>
 		</form>
+		-->
 	</div>
 
 	<!-- Results list -->
