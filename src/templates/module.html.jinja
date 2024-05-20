@@ -106,7 +106,7 @@
 			{% for convener in conveners %}
 				<li>
 					{% if convener.username != "NULL" %}
-						<a href="{{ url_for("person_page", username=convener.username) }}">{{ convener.name }}</a>
+						<a href="{{ url_for("staff_page", username=convener.username) }}">{{ convener.name }}</a>
 					{% else %}
 						{{ convener.name }}
 					{% endif %}

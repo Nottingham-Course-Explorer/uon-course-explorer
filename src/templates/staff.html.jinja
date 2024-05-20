@@ -1,0 +1,23 @@
+{% extends "base.html.jinja" %}
+{% set full_name = [staff.salutation, staff.forename, staff.surname]|join(" ") %}
+{% block title %}{{ full_name }}{% endblock %}
+{% block main %}
+	<h1>{{ full_name }}</h1>
+	<dl>
+		<div class="summary-list-row">
+			<dt>Email</dt>
+			<dd><a href="mailto:{{ staff.email }}">{{ staff.email }}</a></dd>
+		</div>
+		<div class="summary-list-row">
+			<dt>Title</dt>
+			<dd>{{ staff.title }}</dd>
+		</div>
+		<div class="summary-list-row">
+			<dt>Department</dt>
+			<dd>{{ staff.department }}</dd>
+		</div>
+	</dl>
+	<p>
+		Last updated {{ crawl_time }}.
+	</p>
+{% endblock %}

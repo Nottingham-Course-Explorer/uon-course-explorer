@@ -6,7 +6,7 @@ from pathlib import Path
 
 import index
 import module
-import person
+import staff
 
 app = Flask(__name__)
 
@@ -37,7 +37,7 @@ app.url_map.strict_slashes = False
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
 
-app.add_url_rule("/person/<username>", view_func=person.person_page)
+app.add_url_rule("/staff/<username>", view_func=staff.staff_page)
 app.add_url_rule("/module/<code>", view_func=module.module_page)
 app.add_url_rule("/", view_func=index.index_page)
 
