@@ -9,13 +9,13 @@
     row-gap: 10px;
 }
 
-#name-input {
+#title-input {
     grid-area: name-input;
 }
-#name-label {
+#title-label {
     grid-area: name-label;
 }
-#name-button {
+#title-button {
     grid-area: name-button;
 }
 

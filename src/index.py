@@ -1,7 +1,9 @@
+import json
+from datetime import timedelta
+
 from flask import request, render_template, make_response
 
 from utils import get_db, add_column_names_list
-import json
 
 MODULES_PER_PAGE = 20
 LAST_SCHOOL_COOKIE = "last_school"
@@ -14,14 +16,20 @@ with open("../search_options.json") as file:
 
 
 def index_page():
-    name = request.args.get("name", "")
+    title = request.args.get("title", "")
     level = request.args.get("level", "")
     semester = request.args.get("semester", "")
-    school = request.args.get("school", request.cookies.get(LAST_SCHOOL_COOKIE, ""))
+    school_cookie = request.cookies.get(LAST_SCHOOL_COOKIE, "")
+    school = request.args.get("school",
+                              school_cookie
+                              if school_cookie in SCHOOL_OPTIONS else SCHOOL_OPTIONS[0])
     
     # Assemble SQL query
-    parameters = [f"%{name}%", school]
-    terms = "WHERE title LIKE ? AND SCHOOL = ?"
+    parameters = [school]
+    terms = "WHERE school = ?"
+    if title != "":
+        terms += "AND title LIKE ? "
+        parameters.append(f"%{title}%")
     if level != "":
         terms += "AND level = ? "
         parameters.append(level)
@@ -54,11 +62,11 @@ def index_page():
     
     response = make_response(render_template("index.html.jinja",
                                              modules=modules,
-                                             name_query=name,
+                                             name_query=title,
                                              level_query=level, level_options=LEVEL_OPTIONS,
                                              semester_query=semester,
                                              semester_options=SEMESTER_OPTIONS,
                                              school_query=school, school_options=SCHOOL_OPTIONS,
                                              page=page, pages=pages))
-    response.set_cookie(LAST_SCHOOL_COOKIE, school)
+    response.set_cookie(LAST_SCHOOL_COOKIE, school, max_age=timedelta(days=365))
     return response
