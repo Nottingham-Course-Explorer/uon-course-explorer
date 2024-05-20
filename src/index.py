@@ -1,9 +1,10 @@
-from flask import request, render_template
+from flask import request, render_template, make_response
 
 from utils import get_db, add_column_names_list
 import json
 
 MODULES_PER_PAGE = 20
+LAST_SCHOOL_COOKIE = "last_school"
 
 with open("../search_options.json") as file:
     search_options = json.loads(file.read())
@@ -16,7 +17,7 @@ def index_page():
     name = request.args.get("name", "")
     level = request.args.get("level", "")
     semester = request.args.get("semester", "")
-    school = request.args.get("school", SCHOOL_OPTIONS[0])
+    school = request.args.get("school", request.cookies.get(LAST_SCHOOL_COOKIE, ""))
     
     # Assemble SQL query
     parameters = [f"%{name}%", school]
@@ -51,10 +52,13 @@ def index_page():
     #   Maybe don't show Additional Requirements if this is the case.
     # - Sometimes there are no conveners listed.
     
-    return render_template("index.html.jinja",
-                           modules=modules,
-                           name_query=name,
-                           level_query=level, level_options=LEVEL_OPTIONS,
-                           semester_query=semester, semester_options=SEMESTER_OPTIONS,
-                           school_query=school, school_options=SCHOOL_OPTIONS,
-                           page=page, pages=pages)
+    response = make_response(render_template("index.html.jinja",
+                                             modules=modules,
+                                             name_query=name,
+                                             level_query=level, level_options=LEVEL_OPTIONS,
+                                             semester_query=semester,
+                                             semester_options=SEMESTER_OPTIONS,
+                                             school_query=school, school_options=SCHOOL_OPTIONS,
+                                             page=page, pages=pages))
+    response.set_cookie(LAST_SCHOOL_COOKIE, school)
+    return response
