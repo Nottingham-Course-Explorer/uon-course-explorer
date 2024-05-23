@@ -49,7 +49,7 @@
 #last-updated {
     text-align: right;
 }
-@media (width < 550px) {
+@media (width < 600px) {
     #bottom-area {
         grid-template-rows: auto auto;
         grid-template-columns: auto;
