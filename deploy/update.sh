@@ -7,4 +7,4 @@ if [[ -n "$(git log origin/main ^main)" ]]; then
   sudo systemctl restart uon-ce
 fi
 
-sudo systemctl is-active uon-ce || sudo systemctl restart uon-ce
+sudo systemctl is-active uon-ce

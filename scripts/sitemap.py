@@ -7,7 +7,7 @@ def module_url(code):
 
 lines = []
 
-db = sqlite3.connect("../../modules.db")
+db = sqlite3.connect("../modules.db")
 cursor = db.cursor()
 
 cursor.execute("SELECT code FROM modules")
@@ -18,10 +18,10 @@ for module in results:
     if module_code != "":
         lines.append(module_url(module_code))
 
-with open("static/sitemap.txt", "w") as f:
+with open("sitemap.txt", "w") as f:
     f.writelines(lines)
 
 db.commit()
 db.close()
 
-print("Done.")
+print(f"Wrote {len(lines)} URLs.")
