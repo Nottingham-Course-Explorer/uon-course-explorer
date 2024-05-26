@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from flask import request, render_template, make_response
 
-from utils import get_db, add_column_names_list
+from tools import get_db, add_column_names_list
 
 MODULES_PER_PAGE = 20
 LAST_SCHOOL_COOKIE = "last_school"

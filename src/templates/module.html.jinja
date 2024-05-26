@@ -65,14 +65,25 @@
 	<h2 id="summary">Summary</h2>
 	{{ module.summary }}
 
-	<h2>Target Students</h2>
-	<p>
-		{{ module.target_students }}
-	</p>
+	{% if module.target_students not in ["-", "", "-."] %}
+		<h2>Target Students</h2>
+		<p>
+			{{ module.target_students }}
+		</p>
+	{% endif %}
 
 	{% if module.additional_requirements not in ["-", "", "-."] and module.additional_requirements != module.target_students %}
 		<h2 id="additional-requirements">Additional Requirements</h2>
 		{{ module.additional_requirements }}
+	{% endif %}
+
+	{% if co_requisites|length > 0 %}
+		<h2 id="requisites">Requisites</h2>
+		<ul>
+			{% for co_requisite in co_requisites %}
+				<li><a href="{{ url_for("module_page", code=co_requisite[0]) }}">{{ co_requisite[1] }}</a></li>
+			{% endfor %}
+		</ul>
 	{% endif %}
 
 	{% if classes|length > 0 or module.classes_info != "" %}
@@ -91,6 +102,7 @@
 			<li>{{ text }}</li>
 		{% endfor %}
 	</ul>
+	<p>{{ module.assessment_info }}</p>
 
 	{% if module.educational_aims != "" %}
 		<h2 id="educational-aims">Educational Aims</h2>

@@ -3,17 +3,17 @@ from datetime import datetime, timezone
 from flask import abort, render_template
 
 from config import FEATURE_FLAGS
-from utils import add_column_names, get_db, parse_table, digit_to_word
+from tools import add_column_names, get_db, parse_table, num_to_word
 
 
 def format_class(class_: list[str]) -> str:
     class_type, number, per_week_str, duration = class_
-    duration = duration.replace("hours", "hour").replace(" ", "-")
+    duration = duration.replace("hours", "hour").replace("minutes", "minute").replace(" ", "-")
     class_type = class_type.lower()
     if number == "1 week":
         return f"One {duration} {class_type}"
     per_week = int(per_week_str.split(" ")[0])
-    return (f"{digit_to_word(per_week).title()} {duration} "
+    return (f"{num_to_word(per_week).title()} {duration} "
             f"{class_type}{'s' if per_week > 1 else ''} per week for {number}")
 
 
@@ -40,6 +40,7 @@ def module_page(code: str = None):
     classes = [format_class(class_) for class_ in parse_table(module["classes"], 4)]
     assessments = [format_assessment(assessment) for assessment in
                    parse_table(module["assessment"], 5)]
+    co_requisites = [co_requisite for co_requisite in parse_table(module["co_requisites"], 2)]
     crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime(
         "%d/%m/%Y")
     
@@ -48,6 +49,7 @@ def module_page(code: str = None):
     return render_template("module.html.jinja",
                            module=module,
                            conveners=conveners,
+                           co_requisites=co_requisites,
                            classes=classes,
                            assessments=assessments,
                            crawl_time=crawl_time,
