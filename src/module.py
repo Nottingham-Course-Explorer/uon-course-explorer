@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from flask import abort, render_template
 
 from config import FEATURE_FLAGS
-from tools import add_column_names, get_db, parse_table, num_to_word
+from tools import add_column_names, get_db, parse_table, num_to_word, add_column_names_list
 
 
 def format_class(class_type: str, weeks: str, per_week_str: str, duration: str) -> str:
@@ -36,11 +36,13 @@ def module_page(code: str = None):
     
     if module is None:
         abort(404)
-    
-    convener_usernames = module["convener_usernames"].split(",")
-    conveners = [] if module["conveners"] == "" else [
-        {"name": s.strip(), "username": convener_usernames[i]} for i, s in
-        enumerate(module["conveners"].split(","))]
+
+    cursor.execute("SELECT username, salutation, forename, surname FROM staff "
+                   "JOIN convenes ON username = staff_username WHERE module_code = ?", (code,))
+    known_conveners = add_column_names_list(cursor.fetchall())
+
+    cursor.execute("SELECT name FROM unknown_conveners WHERE module_code = ?", (code,))
+    unknown_conveners = add_column_names_list(cursor.fetchall())
     
     classes = [format_class(*class_) for class_ in parse_table(module["classes"], 4)]
     assessments = [format_assessment(*assessment) for assessment in
@@ -53,7 +55,8 @@ def module_page(code: str = None):
     
     return render_template("module.html.jinja",
                            module=module,
-                           conveners=conveners,
+                           known_conveners=known_conveners,
+                           unknown_conveners=unknown_conveners,
                            co_requisites=co_requisites,
                            classes=classes,
                            assessments=assessments,

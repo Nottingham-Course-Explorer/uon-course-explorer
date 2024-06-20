@@ -10,16 +10,15 @@ def staff_page(username: str = None):
     cursor.execute("SELECT * FROM staff WHERE username = ?", (username,))
     staff = add_column_names(cursor.fetchone())
 
-    cursor.execute("SELECT code, title FROM modules JOIN convenes ON modules.code = convenes.module_code "
+    cursor.execute("SELECT code, title FROM modules JOIN convenes ON code = module_code "
                    "WHERE convenes.staff_username = ?", (username,))
     convened_modules = add_column_names_list(cursor.fetchall())
 
     cursor.execute("SELECT DISTINCT username, salutation, forename, surname FROM staff "
-                   "JOIN convenes ON staff.username = convenes.staff_username WHERE module_code IN"
+                   "JOIN convenes ON username = staff_username WHERE module_code IN"
                    "(SELECT module_code FROM convenes WHERE staff_username = ?) AND staff_username != ?",
                    (username, username))
     colleagues = add_column_names_list(cursor.fetchall())
-    print(colleagues)
 
     if staff is None:
         abort(404)

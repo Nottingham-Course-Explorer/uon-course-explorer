@@ -113,15 +113,16 @@
 	{{ module.learning_outcomes }}
 
 	<h2 id="conveners">Conveners</h2>
-	{% if conveners|length > 0 %}
+	{% if known_conveners|length > 0 or unknown_conveners|length > 0 %}
 		<ul>
-			{% for convener in conveners %}
+			{% for convener in known_conveners %}
 				<li>
-					{% if convener.username != "NULL" %}
-						<a href="{{ url_for("staff_page", username=convener.username) }}">{{ convener.name }}</a>
-					{% else %}
-						{{ convener.name }}
-					{% endif %}
+                    <a href="{{ url_for("staff_page", username=convener.username) }}">{{ [convener.salutation, convener.forename, convener.surname]|join(" ") }}</a>
+				</li>
+			{% endfor %}
+            {% for unknown_convener in unknown_conveners %}
+				<li>
+                    {{ unknown_convener["name"] }}
 				</li>
 			{% endfor %}
 		</ul>

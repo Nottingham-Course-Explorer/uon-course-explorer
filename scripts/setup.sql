@@ -1,4 +1,3 @@
-alter table modules add convener_usernames text;
 alter table modules drop row_id;
 
 create table convenes
@@ -11,3 +10,11 @@ create table convenes
             references modules,
     PRIMARY KEY (staff_username, module_code)
 );
+
+CREATE TABLE unknown_conveners
+(
+    name        text not null primary key,
+    module_code text not null
+        constraint unknown_conveners_modules_code_fk
+            references modules
+)
