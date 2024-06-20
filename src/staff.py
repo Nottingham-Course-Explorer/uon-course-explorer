@@ -10,7 +10,9 @@ def staff_page(username: str = None):
     cursor.execute("SELECT * FROM staff WHERE username = ?", (username,))
     staff = add_column_names(cursor.fetchone())
 
-    cursor.execute("SELECT code, title FROM modules WHERE convener_usernames LIKE ?", (f"%{staff['username']}%",))
+    cursor.execute("SELECT code, title FROM modules WHERE convener_usernames = ?"
+                   "OR convener_usernames LIKE ? OR convener_usernames LIKE ? OR convener_usernames LIKE ?",
+                   (staff['username'], f"{staff['username']},%", f"%,{staff['username']}", f"%,{staff['username']},%"))
     convened_modules = add_column_names_list(cursor.fetchall())
     print(convened_modules)
     
