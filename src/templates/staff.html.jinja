@@ -27,6 +27,16 @@
     {% endfor %}
     </ul>
     {% endif %}
+    {% if colleagues|length > 0 %}
+    <h2>Colleagues</h2>
+    <ul>
+    {% for colleague in colleagues %}
+        <li>
+            <a href="{{ url_for("staff_page", username=colleague.username) }}">{{ [colleague.salutation, colleague.forename, colleague.surname]|join(" ") }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
 	<p>
 		Last updated {{ crawl_time }}.
 	</p>

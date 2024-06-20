@@ -10,15 +10,20 @@ def staff_page(username: str = None):
     cursor.execute("SELECT * FROM staff WHERE username = ?", (username,))
     staff = add_column_names(cursor.fetchone())
 
-    cursor.execute("SELECT code, title FROM modules WHERE convener_usernames = ?"
-                   "OR convener_usernames LIKE ? OR convener_usernames LIKE ? OR convener_usernames LIKE ?",
-                   (staff['username'], f"{staff['username']},%", f"%,{staff['username']}", f"%,{staff['username']},%"))
+    cursor.execute("SELECT code, title FROM modules JOIN convenes ON modules.code = convenes.module_code "
+                   "WHERE convenes.staff_username = ?", (username,))
     convened_modules = add_column_names_list(cursor.fetchall())
-    print(convened_modules)
-    
+
+    cursor.execute("SELECT DISTINCT username, salutation, forename, surname FROM staff "
+                   "JOIN convenes ON staff.username = convenes.staff_username WHERE module_code IN"
+                   "(SELECT module_code FROM convenes WHERE staff_username = ?) AND staff_username != ?",
+                   (username, username))
+    colleagues = add_column_names_list(cursor.fetchall())
+    print(colleagues)
+
     if staff is None:
         abort(404)
     
     crawl_time = datetime.fromtimestamp(int(staff["crawl_time"]), timezone.utc).strftime("%d/%m/%Y")
     
-    return render_template("staff.html.jinja", staff=staff, modules=convened_modules, crawl_time=crawl_time)
+    return render_template("staff.html.jinja", staff=staff, modules=convened_modules, colleagues=colleagues, crawl_time=crawl_time)

@@ -70,6 +70,10 @@ for row in results:
     module_code = row[0]
     names = row[1]
     convener_usernames = [lookup(s.strip()) if s.strip() != "" else "" for s in names.split(",")]
+    print(module_code, convener_usernames)
+    for username in convener_usernames:
+        if username != "NULL":
+            cursor.execute("INSERT INTO convenes VALUES (?, ?)", (username, module_code))
     cursor.execute("UPDATE modules SET convener_usernames = ? WHERE code = ?",
                    (",".join(convener_usernames), module_code))
 
