@@ -1,9 +1,7 @@
 import json
 import sqlite3
 
-from config import DATABASE
-
-db = sqlite3.connect(DATABASE)
+db = sqlite3.connect("../modules.db")
 cursor = db.cursor()
 
 cursor.execute("SELECT DISTINCT school FROM modules ORDER BY school")

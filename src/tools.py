@@ -3,8 +3,6 @@ from sqlite3 import Row, Connection
 
 from flask import g
 
-from config import DATABASE
-
 
 def add_column_names(result: Row | None) -> dict[str, str] | None:
     """
@@ -34,7 +32,7 @@ def get_db() -> Connection:
     """
     db = getattr(g, "_database", None)
     if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
+        db = g._database = sqlite3.connect("../modules.db")
         db.row_factory = Row
     return db
 
