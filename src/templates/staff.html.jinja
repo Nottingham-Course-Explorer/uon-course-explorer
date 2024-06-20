@@ -2,42 +2,47 @@
 {% set full_name = [staff.salutation, staff.forename, staff.surname]|join(" ") %}
 {% block title %}{{ full_name }}{% endblock %}
 {% block main %}
-	<h1>{{ full_name }}</h1>
-	<dl>
-		<div class="summary-list-row">
-			<dt>Email</dt>
-			<dd><a href="mailto:{{ staff.email }}">{{ staff.email }}</a></dd>
-		</div>
-		<div class="summary-list-row">
-			<dt>Title</dt>
-			<dd>{{ staff.title }}</dd>
-		</div>
-		<div class="summary-list-row">
-			<dt>Department</dt>
-			<dd>{{ staff.department }}</dd>
-		</div>
-	</dl>
+    <h1>{{ full_name }}</h1>
+    <dl>
+        <div class="summary-list-row">
+            <dt>Email</dt>
+            <dd><a href="mailto:{{ staff.email }}">{{ staff.email }}</a></dd>
+        </div>
+        <div class="summary-list-row">
+            <dt>Title</dt>
+            <dd>{{ staff.title }}</dd>
+        </div>
+        <div class="summary-list-row">
+            <dt>Department</dt>
+            <dd>{{ staff.department }}</dd>
+        </div>
+    </dl>
     {% if modules|length > 0 %}
-    <h2>Convenes Modules</h2>
-    <ul>
-    {% for module in modules %}
-        <li>
-            <a href="{{ url_for("module_page", code=module.code) }}">{{ module.title }}</a>
-        </li>
-    {% endfor %}
-    </ul>
+        <h2>Convenes Modules</h2>
+        <ul>
+            {% for module in modules %}
+                <li>
+                    <a href="{{ url_for("module_page", code=module.code) }}">{{ module.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
     {% if colleagues|length > 0 %}
-    <h2>Colleagues</h2>
-    <ul>
-    {% for colleague in colleagues %}
-        <li>
-            <a href="{{ url_for("staff_page", username=colleague.username) }}">{{ [colleague.salutation, colleague.forename, colleague.surname]|join(" ") }}</a>
-        </li>
-    {% endfor %}
-    </ul>
+        <h2>Colleagues</h2>
+        <ul>
+            {% for colleague in colleagues %}
+                <li>
+                    <a href="{{ url_for("staff_page", username=colleague.username) }}">{{ [colleague.salutation, colleague.forename, colleague.surname]|join(" ") }}</a>
+                </li>
+            {% endfor %}
+            {% for colleague in unknown_colleagues %}
+                <li>
+                    {{ colleague["name"] }}
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
-	<p>
-		Last updated {{ crawl_time }}.
-	</p>
+    <p>
+        Last updated {{ crawl_time }}.
+    </p>
 {% endblock %}

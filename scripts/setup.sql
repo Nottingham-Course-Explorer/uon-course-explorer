@@ -8,10 +8,10 @@ create table convenes
     module_code    text not null
         constraint convenes_modules_code_fk
             references modules,
-    PRIMARY KEY (staff_username, module_code)
+    primary key (staff_username, module_code)
 );
 
-CREATE TABLE unknown_conveners
+create table unknown_conveners
 (
     name        text not null primary key,
     module_code text not null

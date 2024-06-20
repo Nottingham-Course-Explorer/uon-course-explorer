@@ -20,9 +20,18 @@ def staff_page(username: str = None):
                    (username, username))
     colleagues = add_column_names_list(cursor.fetchall())
 
+    cursor.execute("SELECT name FROM unknown_conveners WHERE module_code IN"
+                   "(SELECT module_code FROM convenes WHERE staff_username = ?)", (username,))
+    unknown_colleagues = add_column_names_list(cursor.fetchall())
+
     if staff is None:
         abort(404)
-    
+
     crawl_time = datetime.fromtimestamp(int(staff["crawl_time"]), timezone.utc).strftime("%d/%m/%Y")
-    
-    return render_template("staff.html.jinja", staff=staff, modules=convened_modules, colleagues=colleagues, crawl_time=crawl_time)
+
+    return render_template("staff.html.jinja",
+                           staff=staff,
+                           modules=convened_modules,
+                           colleagues=colleagues,
+                           unknown_colleagues=unknown_colleagues,
+                           crawl_time=crawl_time)
