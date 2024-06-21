@@ -7,6 +7,7 @@ from pathlib import Path
 import index
 import module
 import staff
+from os import environ
 
 app = Flask(__name__)
 
@@ -41,7 +42,7 @@ app.add_url_rule("/staff/<username>", view_func=staff.staff_page)
 app.add_url_rule("/module/<code>", view_func=module.module_page)
 app.add_url_rule("/", view_func=index.index_page)
 
-if Path("../proxy").is_file():
+if environ.get("CE_PROXY", "False") == "True":
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1, x_prefix=1)
 
 if __name__ == '__main__':

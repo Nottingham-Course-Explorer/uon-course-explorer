@@ -5,6 +5,8 @@ import requests
 from src.module import format_assessment, format_class
 from tools import parse_table
 
+from os import environ
+
 
 def test_format_assessment():
     assert format_assessment("Coursework 1", "25.00", "Coursework", "", "Programming exercises."
@@ -25,7 +27,7 @@ def test_format_class():
 
 
 def test_format_assessment_all():
-    db = sqlite3.connect("../modules.db")
+    db = sqlite3.connect(environ["CE_DATABASE"])
     cursor = db.cursor()
     cursor.execute("SELECT assessment FROM MODULES")
     for row in cursor.fetchall():
@@ -34,7 +36,7 @@ def test_format_assessment_all():
 
 
 def test_format_class_all():
-    db = sqlite3.connect("../modules.db")
+    db = sqlite3.connect(environ["CE_DATABASE"])
     cursor = db.cursor()
     cursor.execute("SELECT classes FROM MODULES")
     for row in cursor.fetchall():
@@ -47,7 +49,7 @@ def local_module_url(code):
 
 
 def test_ok_responses():
-    db = sqlite3.connect("../modules.db")
+    db = sqlite3.connect(environ["CE_DATABASE"])
     cursor = db.cursor()
     cursor.execute("SELECT code FROM modules")
     for module in cursor.fetchall():
