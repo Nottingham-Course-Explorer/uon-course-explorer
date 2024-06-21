@@ -17,7 +17,7 @@ main() {
   pip install gunicorn
 
   echo "Telling Flask it is behind a proxy..."
-  touch proxy
+  echo "CE_PROXY='True'" >> /etc/environment
 
   echo "Creating service config..."
   cat > /etc/systemd/system/uon-ce.service <<EOF
@@ -47,8 +47,8 @@ EOF
   sudo systemctl start uon-ce
 }
 
-if [[ -f modules.db ]]; then
+if [[ -f ${CE_DATABASE} ]]; then
   main
 else
-  echo "Couldn't find modules.db, check working directory!"
+  echo "Couldn't find database."
 fi
