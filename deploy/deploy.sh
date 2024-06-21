@@ -16,9 +16,6 @@ main() {
   echo "Installing gunicorn..."
   pip install gunicorn
 
-  echo "Telling Flask it is behind a proxy..."
-  echo "CE_PROXY='True'" >> /etc/environment
-
   echo "Creating service config..."
   cat > /etc/systemd/system/uon-ce.service <<EOF
 [Unit]
@@ -30,6 +27,7 @@ User=${USER}
 Group=${USER}
 WorkingDirectory=${PWD}/src
 Environment="PATH=${PWD}/.venv/bin"
+Environment="CE_PROXY='True'"
 ExecStart=${PWD}/.venv/bin/gunicorn --bind 127.0.0.1:5100 app:app
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
