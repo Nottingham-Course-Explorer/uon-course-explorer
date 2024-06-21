@@ -1,20 +1,23 @@
+import string
 from datetime import datetime, timezone
 
 from flask import abort, render_template
+from num2words import num2words
 
 from config import FEATURE_FLAGS
-from tools import add_column_names, get_db, parse_table, num_to_word, add_column_names_list
+from tools import add_column_names, get_db, parse_table, add_column_names_list
 
 
 def format_class(class_type: str, weeks: str, per_week_str: str, duration: str) -> str:
     duration = (duration
+                .replace("and ", "")
                 .replace("hours", "hour")
                 .replace("minutes", "minute")
                 .replace(" ", "-")) + " " if duration != "" else ""
     if weeks == "1 week":
         return f"One {duration}{class_type.lower()}"
-    per_week = int(per_week_str.split(" ")[0])
-    return f"{num_to_word(per_week).title()} {duration}{class_type.lower()}{'s' if per_week > 1 else ''} per week for {weeks}"
+    per_week = int(per_week_str.split(" ")[0]) if per_week_str else 1
+    return f"{string.capwords(num2words(per_week))} {duration}{class_type.lower()}{'s' if per_week > 1 else ''} per week for {weeks}"
 
 
 def format_assessment(title: str, weight: str, type_: str, duration: str, requirements: str) -> str:
@@ -33,7 +36,7 @@ def module_page(code: str = None):
     cursor = get_db().cursor()
     cursor.execute("SELECT * FROM modules WHERE code = ?", (code,))
     module = add_column_names(cursor.fetchone())
-    
+
     if module is None:
         abort(404)
 
@@ -43,16 +46,15 @@ def module_page(code: str = None):
 
     cursor.execute("SELECT name FROM unknown_conveners WHERE module_code = ?", (code,))
     unknown_conveners = add_column_names_list(cursor.fetchall())
-    
+
     classes = [format_class(*class_) for class_ in parse_table(module["classes"], 4)]
-    assessments = [format_assessment(*assessment) for assessment in
-                   parse_table(module["assessment"], 5)]
+    assessments = [format_assessment(*assessment) for assessment in parse_table(module["assessment"], 5)]
     co_requisites = [co_requisite for co_requisite in parse_table(module["co_requisites"], 2)]
-    crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime(
-        "%d/%m/%Y")
-    
+
+    crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime("%d/%m/%Y")
+
     # public_token = sha256(bytes(request.remote_addr, "utf-8")).hexdigest()
-    
+
     return render_template("module.html.jinja",
                            module=module,
                            known_conveners=known_conveners,
