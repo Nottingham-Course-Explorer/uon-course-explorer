@@ -3,6 +3,14 @@
 {% block description %}Easily search University of Nottingham modules, a replacement for the University of Nottingham Curriculum Catalogue.{% endblock %}
 {% block head %}
 	{{ super() }}
+    <script type='application/ld+json'>
+        {
+            "@context": "https://www.schema.org",
+            "@type": "WebSite",
+            "name": "University of Nottingham Course Explorer",
+            "url": "https://uoncourses.org/"
+        }
+    </script>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
 {% endblock %}
 {% block main %}
@@ -52,7 +60,6 @@
 		<input form="search" id="title-input" name="title" value="{{ name_query }}">
 		<button form="search" id="title-button" type="submit" class="btn-primary">Search</button>
 
-		<!--
 		<form id="go-to-module"
 			  _="on submit
                 halt the event
@@ -64,7 +71,6 @@
 			<input id="code-input" name="code">
 			<button type="submit" class="btn-primary">Go</button>
 		</form>
-		-->
 	</div>
 
 	<!-- Results list -->
