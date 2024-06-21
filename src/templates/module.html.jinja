@@ -74,11 +74,14 @@
 
 	{% if module.additional_requirements not in ["-", "", "-."] and module.additional_requirements != module.target_students %}
 		<h2 id="additional-requirements">Additional Requirements</h2>
-		{{ module.additional_requirements }}
+        <p>
+            {{ module.additional_requirements }}
+        </p>
 	{% endif %}
 
 	{% if co_requisites|length > 0 %}
-		<h2 id="requisites">Requisites</h2>
+		<h2 id="co-requisites">Co-requisites</h2>
+        Modules you must take in the same academic year to enrol in this module:
 		<ul>
 			{% for co_requisite in co_requisites %}
 				<li><a href="{{ url_for("module_page", code=co_requisite[0]) }}">{{ co_requisite[1] }}</a></li>
