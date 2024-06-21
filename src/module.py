@@ -50,6 +50,7 @@ def module_page(code: str = None):
     classes = [format_class(*class_) for class_ in parse_table(module["classes"], 4)]
     assessments = [format_assessment(*assessment) for assessment in parse_table(module["assessment"], 5)]
     co_requisites = [co_requisite for co_requisite in parse_table(module["co_requisites"], 2)]
+    prerequisites = [prerequisite for prerequisite in parse_table(module["prerequisites"], 2)]
 
     crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime("%d/%m/%Y")
 
@@ -60,6 +61,7 @@ def module_page(code: str = None):
                            known_conveners=known_conveners,
                            unknown_conveners=unknown_conveners,
                            co_requisites=co_requisites,
+                           prerequisites=prerequisites,
                            classes=classes,
                            assessments=assessments,
                            crawl_time=crawl_time,
