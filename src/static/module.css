@@ -41,7 +41,7 @@
 
 #bottom-area {
     margin-top: 32px;
-    margin-bottom: 32px;
+    margin-bottom: 10px;
     display: grid;
     grid-template-rows: auto;
     grid-template-columns: auto auto;

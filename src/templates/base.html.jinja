@@ -12,7 +12,15 @@
 	{% endblock %}
 </head>
 <body>
-<main>{% block main %}{% endblock %}</main>
-<footer>{% block footer %}{% endblock %}</footer>
+<main>
+    {% block main %}{% endblock %}
+</main>
+<footer style="text-align: center; padding-top: 30px">
+    {% block footer %}
+        <a href="https://github.com/Nottingham-Course-Explorer/uon-course-explorer">
+            <img src="{{ url_for('static', filename='github-dynamic.svg') }}" alt="GitHub Repository" height="40px">
+        </a>
+    {% endblock %}
+</footer>
 </body>
 </html>
