@@ -2,16 +2,16 @@
 {% block title %}Module Search{% endblock %}
 {% block description %}Easily search University of Nottingham modules, a replacement for the University of Nottingham
     Curriculum Catalogue.{% endblock %}
-{% block head %}
+{% block head -%}
     {{ super() }}
     <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "University of Nottingham Course Explorer",
-            "alternateName": "Nottingham Course Explorer",
-            "url": "https://uoncourses.org"
-        }
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "University of Nottingham Course Explorer",
+        "alternateName": "Nottingham Course Explorer",
+        "url": "https://uoncourses.org"
+    }
     </script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
     <link rel="canonical" href="https://uoncourses.org" />
@@ -21,43 +21,36 @@
 
     <!-- Search area -->
     <div id="search-area">
-        <label for="school" id="school-label">
-            School
-        </label>
+        <label for="school" id="school-label">School</label>
         <div id="school-wrap">
             <select id="school" name="school" form="search" style="max-width: 100%">
-                {% for school in school_options %}
-                    <option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
-                {% endfor %}
+            {% for school in school_options %}
+                <option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
+            {% endfor %}
             </select>
         </div>
 
-        <label id="level-label" for="level">
-            Level
-        </label>
+        <label id="level-label" for="level">Level</label>
         <div id="select-level">
             <select id="level" name="level" form="search">
                 <option value="">Any</option>
                 {% for level in level_options %}
-                    <option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
+                <option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <label id="semester-label" for="semester">
-            Semester
-        </label>
+        <label id="semester-label" for="semester">Semester</label>
         <div id="select-semester">
             <select id="semester" name="semester" form="search" style="max-width: 100%">
                 <option value="">Any</option>
                 {% for semester in semester_options %}
-                    <option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
+                <option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <form id="search" action="/" method="get">
-        </form>
+        <form id="search" action="/" method="get"></form>
 
         <label for="title-input" id="title-label">Title</label>
         <input form="search" id="title-input" name="title" value="{{ name_query }}">
@@ -79,13 +72,13 @@
     <!-- Results list -->
     <table style="width: 100%">
         <thead>
-        <tr>
-            <td>Code</td>
-            <td>Title</td>
-            <td>Credits</td>
-            <td>Level</td>
-            <td>Semesters</td>
-        </tr>
+            <tr>
+                <td>Code</td>
+                <td>Title</td>
+                <td>Credits</td>
+                <td>Level</td>
+                <td>Semesters</td>
+            </tr>
         </thead>
         <tbody>
         {% for module in modules %}
@@ -99,11 +92,11 @@
                     </a>
                 </td>
                 <td>
-                    {%- if module.credits != 0 %}
-                        {{- module.credits -}}
-                    {%- else -%}
-                        N/A
-                    {%- endif -%}
+                {%- if module.credits != 0 %}
+                    {{- module.credits -}}
+                {%- else -%}
+                    N/A
+                {%- endif -%}
                 </td>
                 <td>
                     {{- module.level -}}
@@ -117,17 +110,17 @@
     </table>
     <nav id="pagination">
         <div id="previous-page-grid">
-            {% if page != 1 %}
-                <a href="{{ modify_parameters(page=page - 1) }}">Previous Page</a>
-            {% endif %}
+        {% if page != 1 %}
+            <a href="{{ modify_parameters(page=page - 1) }}">Previous Page</a>
+        {% endif %}
         </div>
         <div id="page-info-grid">
             Page {{ page }} of {{ pages }}
         </div>
         <div id="next-page-grid">
-            {% if page != pages %}
-                <a href="{{ modify_parameters(page=page + 1) }}">Next Page</a>
-            {% endif %}
+        {% if page != pages %}
+            <a href="{{ modify_parameters(page=page + 1) }}">Next Page</a>
+        {%- endif -%}
         </div>
     </nav>
 

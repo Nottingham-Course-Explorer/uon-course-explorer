@@ -20,26 +20,26 @@
     {% if modules|length > 0 %}
         <h2>Modules Convened</h2>
         <ul>
-            {% for module in modules %}
-                <li>
-                    <a href="{{ url_for("module_page", code=module.code) }}">{{ module.title }}</a>
-                </li>
-            {% endfor %}
+        {% for module in modules %}
+            <li>
+                <a href="{{ url_for("module_page", code=module.code) }}">{{ module.title }}</a>
+            </li>
+        {% endfor %}
         </ul>
     {% endif %}
     {% if colleagues|length > 0 or unknown_colleagues|length > 0 %}
         <h2>Module Colleagues</h2>
         <ul>
-            {% for colleague in colleagues %}
-                <li>
-                    <a href="{{ url_for("staff_page", username=colleague.username) }}">{{ [colleague.salutation, colleague.forename, colleague.surname]|join(" ") }}</a>
-                </li>
-            {% endfor %}
-            {% for colleague in unknown_colleagues %}
-                <li>
-                    {{ colleague["name"] }}
-                </li>
-            {% endfor %}
+        {% for colleague in colleagues %}
+            <li>
+                <a href="{{ url_for("staff_page", username=colleague.username) }}">{{ [colleague.salutation, colleague.forename, colleague.surname]|join(" ") }}</a>
+            </li>
+        {% endfor %}
+        {% for colleague in unknown_colleagues %}
+            <li>
+                {{ colleague["name"] }}
+            </li>
+        {% endfor %}
         </ul>
     {% endif %}
     <p>

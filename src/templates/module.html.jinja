@@ -1,36 +1,36 @@
 {% extends "base.html.jinja" %}
 {% block title %}{{ module.title }}{% endblock %}
-{% block head %}
-	{{ super() }}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='module.css') }}">
+{% block head -%}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='module.css') }}">
 {% endblock %}
 {% block main %}
 	<h1>{{ module.title }}</h1>
 
 	<table id="display-details-horizontal" style="width: 100%">
 		<thead>
-		<tr>
-			<td>Code</td>
-			<td>School</td>
-			<td>Level</td>
-			<td>Credits</td>
-			<td>Semesters</td>
-		</tr>
+            <tr>
+                <td>Code</td>
+                <td>School</td>
+                <td>Level</td>
+                <td>Credits</td>
+                <td>Semesters</td>
+            </tr>
 		</thead>
 		<tbody>
-		<tr>
-			<td>{{ module.code }}</td>
-			<td>{{ module.school }}</td>
-			<td>{{ module.level }}</td>
-			<td>
-				{%- if module.credits != 0 -%}
-					{{ module.credits }}
-				{%- else -%}
-					N/A
-				{%- endif -%}
-			</td>
-			<td>{{ module.semesters }}</td>
-		</tr>
+            <tr>
+                <td>{{ module.code }}</td>
+                <td>{{ module.school }}</td>
+                <td>{{ module.level }}</td>
+                <td>
+                {%- if module.credits != 0 -%}
+                    {{ module.credits }}
+                {%- else -%}
+                    N/A
+                {%- endif -%}
+                </td>
+                <td>{{ module.semesters }}</td>
+            </tr>
 		</tbody>
 	</table>
 	<dl id="display-details-vertical">
@@ -49,11 +49,11 @@
 		<div class="summary-list-row">
 			<dt>Credits</dt>
 			<dd>
-				{%- if module.credits != 0 -%}
-					{{ module.credits }}
-				{%- else -%}
-					N/A
-				{%- endif -%}
+            {%- if module.credits != 0 -%}
+                {{ module.credits }}
+            {%- else -%}
+                N/A
+            {%- endif -%}
 			</dd>
 		</div>
 		<div class="summary-list-row">
@@ -66,64 +66,64 @@
 	{{ module.summary }}
 
 	{% if module.target_students not in ["-", "", "-."] %}
-		<h2>Target Students</h2>
-		<p>
-			{{ module.target_students }}
-		</p>
+    <h2>Target Students</h2>
+    <p>
+        {{ module.target_students }}
+    </p>
 	{% endif %}
 
 	{% if module.additional_requirements not in ["-", "", "-."] and module.additional_requirements != module.target_students %}
-		<h2 id="additional-requirements">Additional Requirements</h2>
-        <p>
-            {{ module.additional_requirements }}
-        </p>
+    <h2 id="additional-requirements">Additional Requirements</h2>
+    <p>
+        {{ module.additional_requirements }}
+    </p>
 	{% endif %}
 
 	{% if co_requisites|length > 0 %}
-		<h2 id="co-requisites">Co-requisites</h2>
-        <p>
-            Modules you must take in the same academic year to enrol in this module:
-        </p>
-		<ul>
-			{% for co_requisite in co_requisites %}
-				<li><a href="{{ url_for("module_page", code=co_requisite[0]) }}">{{ co_requisite[1] }}</a></li>
-			{% endfor %}
-		</ul>
+    <h2 id="co-requisites">Co-requisites</h2>
+    <p>
+        Modules you must take in the same academic year to enrol in this module:
+    </p>
+    <ul>
+    {% for co_requisite in co_requisites %}
+        <li><a href="{{ url_for("module_page", code=co_requisite[0]) }}">{{ co_requisite[1] }}</a></li>
+    {% endfor %}
+    </ul>
 	{% endif %}
 
     {% if prerequisites|length > 0 %}
-		<h2 id="prerequisites">Prerequisites</h2>
-        <p>
-            Modules you must have successfully completed to enrol in this module:
-        </p>
-		<ul>
-			{% for prerequisite in prerequisites %}
-				<li><a href="{{ url_for("module_page", code=prerequisite[0]) }}">{{ prerequisite[1] }}</a></li>
-			{% endfor %}
-		</ul>
+    <h2 id="prerequisites">Prerequisites</h2>
+    <p>
+        Modules you must have successfully completed to enrol in this module:
+    </p>
+    <ul>
+    {% for prerequisite in prerequisites %}
+        <li><a href="{{ url_for("module_page", code=prerequisite[0]) }}">{{ prerequisite[1] }}</a></li>
+    {% endfor %}
+    </ul>
 	{% endif %}
 
 	{% if classes|length > 0 or module.classes_info != "" %}
-		<h2 id="classes">Classes</h2>
-		<ul>
-			{% for text in classes %}
-				<li>{{ text }}</li>
-			{% endfor %}
-		</ul>
-		<p>{{ module.classes_info }}</p>
+    <h2 id="classes">Classes</h2>
+    <ul>
+    {% for text in classes %}
+        <li>{{ text }}</li>
+    {% endfor %}
+    </ul>
+    <p>{{ module.classes_info }}</p>
 	{% endif %}
 
 	<h2 id="assessment">Assessment</h2>
 	<ul>
-		{% for text in assessments %}
-			<li>{{ text }}</li>
-		{% endfor %}
+    {% for text in assessments %}
+        <li>{{ text }}</li>
+    {% endfor %}
 	</ul>
 	<p>{{ module.assessment_info }}</p>
 
 	{% if module.educational_aims != "" %}
-		<h2 id="educational-aims">Educational Aims</h2>
-		{{ module.educational_aims }}
+    <h2 id="educational-aims">Educational Aims</h2>
+    {{ module.educational_aims }}
 	{% endif %}
 
 	<h2 id="learning-outcomes">Learning Outcomes</h2>
@@ -131,20 +131,20 @@
 
 	<h2 id="conveners">Conveners</h2>
 	{% if known_conveners|length > 0 or unknown_conveners|length > 0 %}
-		<ul>
-			{% for convener in known_conveners %}
-				<li>
-                    <a href="{{ url_for("staff_page", username=convener.username) }}">{{ [convener.salutation, convener.forename, convener.surname]|join(" ") }}</a>
-				</li>
-			{% endfor %}
-            {% for unknown_convener in unknown_conveners %}
-				<li>
-                    {{ unknown_convener["name"] }}
-				</li>
-			{% endfor %}
-		</ul>
+    <ul>
+    {% for convener in known_conveners %}
+        <li>
+            <a href="{{ url_for("staff_page", username=convener.username) }}">{{ [convener.salutation, convener.forename, convener.surname]|join(" ") }}</a>
+        </li>
+    {% endfor %}
+    {% for unknown_convener in unknown_conveners %}
+        <li>
+            {{ unknown_convener["name"] }}
+        </li>
+    {% endfor %}
+    </ul>
 	{% else %}
-		Conveners unspecified.
+        Conveners unspecified.
 	{% endif %}
 
 	<div id="bottom-area">
@@ -155,37 +155,37 @@
 	</div>
 
 	{% if "comments" in feature_flags %}
-		<hr/>
+    <hr/>
 
-		<h2>Comments</h2>
-		<p>
-			Leave a comment to give feedback on this module or correct outdated information.
-		</p>
+    <h2>Comments</h2>
+    <p>
+        Leave a comment to give feedback on this module or correct outdated information.
+    </p>
 
-		<form id="comment-input-area"
-			  _='on submit
-             halt the event
-             call alert("Hello, world!")'>
-			<div id="identicon">
-				<div title="{{ public_token_short }}">
-					<svg width="60" height="60" data-jdenticon-value="{{ public_token }}"></svg>
-				</div>
-			</div>
-			<textarea id="textarea" maxlength="280" style="height: 81px">This course provides a basic course in algebra and calculus required for data science. It introduces key elements of definition, manipulation, graphical This course provides a basic course in algebra and calculus required for data science. </textarea>
-			<div id="actions">
-				<button class="btn-primary">Post</button>
-			</div>
-		</form>
+    <form id="comment-input-area"
+          _='on submit
+         halt the event
+         call alert("Hello, world!")'>
+        <div id="identicon">
+            <div title="{{ public_token_short }}">
+                <svg width="60" height="60" data-jdenticon-value="{{ public_token }}"></svg>
+            </div>
+        </div>
+        <textarea id="textarea" maxlength="280" style="height: 81px">This course provides a basic course in algebra and calculus required for data science. It introduces key elements of definition, manipulation, graphical This course provides a basic course in algebra and calculus required for data science. </textarea>
+        <div id="actions">
+            <button class="btn-primary">Post</button>
+        </div>
+    </form>
 
-		<!-- Jdenticon -->
-		<script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
-				integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
-				crossorigin="anonymous">
-		</script>
-		<script lang="js">
-            window.jdenticon_config = {
-                padding: 0
-            }
-		</script>
+    <!-- Jdenticon -->
+    <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
+            integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
+            crossorigin="anonymous">
+    </script>
+    <script lang="js">
+        window.jdenticon_config = {
+            padding: 0
+        }
+    </script>
 	{% endif %}
 {% endblock %}

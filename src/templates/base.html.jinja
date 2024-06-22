@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	{% block head %}
-		<meta charset="UTF-8">
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='controls.css') }}">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
-		<title>{% block title %}{% endblock %} - University of Nottingham Course Explorer</title>
-		<meta name="description" content="{% block description %}{% endblock %}">
-	{% endblock %}
+    {% block head -%}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='controls.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
+    <title>{% block title %}{% endblock %} - University of Nottingham Course Explorer</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+    {%- endblock %}
 </head>
 <body>
 <main>
-    {% block main %}{% endblock %}
+    {% block main %}
+    {% endblock %}
 </main>
 <footer style="text-align: center; padding-top: 30px">
     {% block footer %}
-        <a href="https://github.com/Nottingham-Course-Explorer/uon-course-explorer">
-            <img src="{{ url_for('static', filename='github-dynamic.svg') }}" alt="GitHub Repository" height="40px">
-        </a>
+    <a href="https://github.com/Nottingham-Course-Explorer/uon-course-explorer">
+        <img src="{{ url_for('static', filename='github-dynamic.svg') }}" alt="GitHub Repository" height="40px">
+    </a>
     {% endblock %}
 </footer>
 </body>
