@@ -1,7 +1,7 @@
 import string
 from datetime import datetime, timezone
 
-from flask import abort, render_template
+from flask import abort, render_template, url_for
 from num2words import num2words
 
 from config import FEATURE_FLAGS
@@ -68,3 +68,12 @@ def module_page(code: str = None):
                            # public_token=public_token,
                            # public_token_short=public_token[0:10],
                            feature_flags=FEATURE_FLAGS)
+
+
+def find_module(code: str):
+    cursor = get_db().cursor()
+    cursor.execute("SELECT code FROM modules WHERE code = ?", (code,))
+    module = add_column_names(cursor.fetchone())
+    if module is None:
+        abort(404)
+    return url_for("module_page", code=module["code"])

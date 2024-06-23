@@ -21,18 +21,22 @@
 
     <!-- Search area -->
     <div id="search-area">
-        <label for="school" id="school-label">School</label>
-        <div id="school-wrap">
-            <select id="school" name="school" form="search" style="max-width: 100%">
+        <div id="school-label" class="search-label">
+            <label for="school-select">School</label>
+        </div>
+        <div id="school-select-container">
+            <select id="school-select" name="school" form="search" style="max-width: 100%">
             {% for school in school_options %}
                 <option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
             {% endfor %}
             </select>
         </div>
 
-        <label id="level-label" for="level">Level</label>
-        <div id="select-level">
-            <select id="level" name="level" form="search">
+        <div id="level-label" class="search-label">
+            <label for="level-select">Level</label>
+        </div>
+        <div id="level-select-container">
+            <select id="level-select" name="level" form="search">
                 <option value="">Any</option>
                 {% for level in level_options %}
                 <option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
@@ -40,9 +44,11 @@
             </select>
         </div>
 
-        <label id="semester-label" for="semester">Semester</label>
-        <div id="select-semester">
-            <select id="semester" name="semester" form="search" style="max-width: 100%">
+        <div id="semester-label" class="search-label">
+            <label for="semester-select">Semester</label>
+        </div>
+        <div id="semester-select-container">
+            <select id="semester-select" name="semester" form="search" style="max-width: 100%">
                 <option value="">Any</option>
                 {% for semester in semester_options %}
                 <option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
@@ -52,21 +58,45 @@
 
         <form id="search" action="/" method="get"></form>
 
-        <label for="title-input" id="title-label">Title</label>
+        <div id="title-label" class="search-label">
+            <label for="title-input">Title</label>
+        </div>
         <input form="search" id="title-input" name="title" value="{{ name_query }}">
-        <button form="search" id="title-button" type="submit" class="btn-primary">Search</button>
+        <button form="search" id="search-button" type="submit" class="btn-primary">Search</button>
 
-        <form id="go-to-module"
-              _="on submit
-                halt the event
-                set input to (first <input/> in me).value
-                if input != ''
-                  go to url `module/${input}`
-				end">
+        <form id="go-to-module"></form>
+
+        <div id="code-label" class="search-label">
             <label for="code-input">Code</label>
-            <input id="code-input" name="code">
-            <button type="submit" class="btn-primary">Go</button>
-        </form>
+        </div>
+        <input id="code-input" form="go-to-module">
+        <button id="go-button" type="submit" class="btn-primary" form="go-to-module">Go</button>
+
+        <script>
+            const codeInput = document.querySelector("#code-input");
+            const goToModuleForm = document.querySelector("#go-to-module");
+
+            goToModuleForm.addEventListener("submit", event => {
+                event.preventDefault();
+                let query = codeInput.value;
+                if (query === "") {
+                    alert("Enter a module code.");
+                    return
+                }
+                fetch(`/find-module/${query.toUpperCase()}`).then(response => {
+                    switch (response.status) {
+                        case 404:
+                            alert("Couldn't find a module with that code.");
+                            break;
+                        case 200:
+                            response.text().then(text => window.location = text);
+                            break;
+                        default:
+                            alert("Unexpected response from the server. Please try again later.")
+                    }
+                })
+            })
+        </script>
     </div>
 
     <!-- Results list -->
@@ -123,6 +153,4 @@
         {%- endif -%}
         </div>
     </nav>
-
-    <script src="https://unpkg.com/hyperscript.org@0.9.12" async></script>
 {% endblock %}

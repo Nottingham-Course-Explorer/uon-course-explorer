@@ -1,12 +1,21 @@
 #search-area {
     display: grid;
     grid-template-areas:
-            "school-label school school level-label select-level semester-label select-semester"
-            "name-label name-input name-button go-to-module go-to-module go-to-module go-to-module";
-    grid-template-columns: auto auto 90px auto auto auto 150px;
+            "school-label school school level-label select-level semester-label select-semester select-semester"
+            "name-label name-input name-button code-label code-input code-input code-input go-button";
+    grid-template-columns: auto auto 90px auto auto auto auto auto;
     grid-template-rows: auto auto;
     column-gap: 5px;
     row-gap: 10px;
+}
+
+.search-label {
+    display: flex;
+    align-items: center;
+}
+.search-label label {
+    width: 100%;
+    text-align: center;
 }
 
 #title-input {
@@ -15,22 +24,28 @@
 #title-label {
     grid-area: name-label;
 }
-#title-button {
+#search-button {
     grid-area: name-button;
 }
 
-#go-to-module {
-    grid-area: go-to-module;
+#code-label {
+    grid-area: code-label;
+}
+#code-input {
+    grid-area: code-input;
+}
+#go-button {
+    grid-area: go-button;
 }
 
 #level-label {
     grid-area: level-label;
 }
-#select-level {
+#level-select-container {
    grid-area: select-level;
 }
 
-#school-wrap {
+#school-select-container {
     grid-area: school;
 }
 #school-label {
@@ -40,7 +55,7 @@
 #semester-label {
     grid-area: semester-label;
 }
-#select-semester {
+#semester-select-container {
     grid-area: select-semester;
 }
 
