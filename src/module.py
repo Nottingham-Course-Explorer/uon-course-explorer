@@ -1,7 +1,7 @@
 import string
 from datetime import datetime, timezone
 
-from flask import abort, render_template, url_for
+from flask import abort, render_template, url_for, redirect
 from num2words import num2words
 
 from config import FEATURE_FLAGS
@@ -77,3 +77,12 @@ def find_module(code: str):
     if module is None:
         abort(404)
     return url_for("module_page", code=module["code"])
+
+
+def random_module():
+    cursor = get_db().cursor()
+    cursor.execute("SELECT code FROM modules ORDER BY RANDOM() LIMIT 1")
+    module = add_column_names(cursor.fetchone())
+    if module is None:
+        abort(404)
+    return redirect(url_for("module_page", code=module["code"]))
