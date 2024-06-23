@@ -3,6 +3,7 @@
 {% block head -%}
     {{ super() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='module.css') }}">
+    <meta property="og:title" content="{{ module.title }}">
 {% endblock %}
 {% block main %}
 	<h1>{{ module.title }}</h1>
