@@ -1,6 +1,6 @@
 # UoN Course Explorer
 [Flask](https://flask.palletsprojects.com/) app for browsing University of Nottingham modules.
-Uses [Hyperscript](https://hyperscript.org/).
+Uses 23 lines of JavaScript and one cookie.
 
 ## Deploying
 ```
