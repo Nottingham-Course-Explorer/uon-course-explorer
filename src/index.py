@@ -68,5 +68,6 @@ def index_page():
                                              semester_options=SEMESTER_OPTIONS,
                                              school_query=school, school_options=SCHOOL_OPTIONS,
                                              page=page, pages=pages))
-    response.set_cookie(LAST_SCHOOL_COOKIE, school, max_age=timedelta(days=365))
+    response.set_cookie(LAST_SCHOOL_COOKIE, school,
+                        max_age=timedelta(days=365), secure=True, httponly=True, samesite="Strict")
     return response

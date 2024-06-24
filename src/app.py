@@ -34,6 +34,15 @@ def page_not_found(error):
     return render_template("404.html.jinja"), 404
 
 
+@app.after_request
+def add_security_headers(response):
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src 'self'"
+    response.headers['X-Content-Type-Options'] = "nosniff"
+    return response
+
+
 app.url_map.strict_slashes = False
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
