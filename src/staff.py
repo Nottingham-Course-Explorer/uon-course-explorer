@@ -10,6 +10,9 @@ def staff_page(username: str = None) -> Response:
     cursor.execute("SELECT * FROM staff WHERE username = ?", (username,))
     staff = add_column_names(cursor.fetchone())
 
+    if staff is None:
+        abort(404)
+
     cursor.execute(
         "SELECT code, title FROM modules JOIN convenes ON code = module_code "
         "WHERE convenes.staff_username = ?",
@@ -31,9 +34,6 @@ def staff_page(username: str = None) -> Response:
         (username,),
     )
     unknown_colleagues = add_column_names_list(cursor.fetchall())
-
-    if staff is None:
-        abort(404)
 
     crawl_time = datetime.fromtimestamp(
         int(staff["crawl_time"]), timezone.utc
