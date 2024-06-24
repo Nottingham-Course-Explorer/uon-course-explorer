@@ -1,6 +1,11 @@
 #!/bin/bash
 
+database_file="$HOME/ce.sqlite3"
+
 main() {
+  echo "Downloading database..."
+  curl "$1" --progress-bar --output "$database_file"
+
   echo "Installing venv tool..."
   apt install python3.11-venv
 
@@ -23,12 +28,13 @@ Description=UON CE Gunicorn Daemon
 After=network.target
 
 [Service]
-User=${USER}
-Group=${USER}
-WorkingDirectory=${PWD}/src
-Environment="PATH=${PWD}/.venv/bin"
+User=$USER
+Group=$USER
+WorkingDirectory=$PWD/src
+Environment="PATH=$PWD/.venv/bin"
 Environment="CE_PROXY='True'"
-ExecStart=${PWD}/.venv/bin/gunicorn --bind 127.0.0.1:5100 app:app
+Environment="CE_DATABASE=$database_file"
+ExecStart=$PWD/.venv/bin/gunicorn --bind 127.0.0.1:5100 app:app
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
@@ -45,8 +51,8 @@ EOF
   sudo systemctl start uon-ce
 }
 
-if [[ -f ${CE_DATABASE} ]]; then
-  main
+if [[ $# -eq 1 ]]; then
+  main "$1"
 else
-  echo "Couldn't find database."
+  echo "Provide the URL of the database and no other arguments."
 fi

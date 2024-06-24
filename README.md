@@ -10,7 +10,7 @@ Uses 23 lines of JavaScript and one cookie.
 ```
 git clone https://github.com/Nottingham-Course-Explorer/uon-course-explorer.git
 cd uon-course-explorer
-bash deploy/deploy.sh
+bash deploy/deploy.sh [DATABASE-URL]
 ```
 The deployment script configures [Gunicorn](https://gunicorn.org/) on `127.0.0.1:5100`.
 
