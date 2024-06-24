@@ -1,7 +1,7 @@
 import string
 from datetime import datetime, timezone
 
-from flask import abort, render_template, url_for, redirect
+from flask import abort, render_template, url_for, redirect, make_response
 from num2words import num2words
 
 from config import FEATURE_FLAGS
@@ -54,20 +54,19 @@ def module_page(code: str = None):
 
     crawl_time = datetime.fromtimestamp(int(module["crawl_time"]), timezone.utc).strftime("%d/%m/%Y")
 
-    # public_token = sha256(bytes(request.remote_addr, "utf-8")).hexdigest()
+    response = make_response(render_template("module.html.jinja",
+                                             module=module,
+                                             known_conveners=known_conveners,
+                                             unknown_conveners=unknown_conveners,
+                                             co_requisites=co_requisites,
+                                             prerequisites=prerequisites,
+                                             classes=classes,
+                                             assessments=assessments,
+                                             crawl_time=crawl_time,
+                                             feature_flags=FEATURE_FLAGS))
 
-    return render_template("module.html.jinja",
-                           module=module,
-                           known_conveners=known_conveners,
-                           unknown_conveners=unknown_conveners,
-                           co_requisites=co_requisites,
-                           prerequisites=prerequisites,
-                           classes=classes,
-                           assessments=assessments,
-                           crawl_time=crawl_time,
-                           # public_token=public_token,
-                           # public_token_short=public_token[0:10],
-                           feature_flags=FEATURE_FLAGS)
+    response.headers["Cache-Control"] = "max-age=300"
+    return response
 
 
 def find_module(code: str):

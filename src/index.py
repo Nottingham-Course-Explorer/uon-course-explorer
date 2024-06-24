@@ -70,4 +70,5 @@ def index_page():
                                              page=page, pages=pages))
     response.set_cookie(LAST_SCHOOL_COOKIE, school,
                         max_age=timedelta(days=365), secure=True, httponly=True, samesite="Strict")
+    response.headers["Cache-Control"] = "max-age=3600"
     return response

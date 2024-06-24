@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from flask import abort, render_template
+from flask import abort, render_template, make_response
 
 from tools import get_db, add_column_names, add_column_names_list
 
@@ -29,9 +29,11 @@ def staff_page(username: str = None):
 
     crawl_time = datetime.fromtimestamp(int(staff["crawl_time"]), timezone.utc).strftime("%d/%m/%Y")
 
-    return render_template("staff.html.jinja",
-                           staff=staff,
-                           modules=convened_modules,
-                           colleagues=colleagues,
-                           unknown_colleagues=unknown_colleagues,
-                           crawl_time=crawl_time)
+    response = make_response(render_template("staff.html.jinja",
+                                             staff=staff,
+                                             modules=convened_modules,
+                                             colleagues=colleagues,
+                                             unknown_colleagues=unknown_colleagues,
+                                             crawl_time=crawl_time))
+    response.headers["Cache-Control"] = "max-age=3600"
+    return response
