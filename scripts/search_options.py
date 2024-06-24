@@ -18,8 +18,8 @@ for entry in semesters_entries:
     semesters += entry.split(", ")
 
 with open("../search_options.json", "w") as file:
-    file.write(json.dumps({
-        "schools": schools,
-        "levels": levels,
-        "semesters": sorted(set(semesters))
-    }))
+    file.write(
+        json.dumps(
+            {"schools": schools, "levels": levels, "semesters": sorted(set(semesters))}
+        )
+    )

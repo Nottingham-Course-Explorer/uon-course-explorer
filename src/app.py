@@ -1,44 +1,46 @@
+from os import environ
 from urllib.parse import urlencode
 
-from flask import Flask, render_template, g, request
+from flask import Flask, render_template, g, request, Response
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 import index
 import module
 import staff
-from os import environ
 
 app = Flask(__name__)
 
 
 @app.template_global()
-def modify_parameters(**new_values):
+def modify_parameters(**new_values) -> str:
     args = request.args.copy()
-    
+
     for parameter, value in new_values.items():
         args[parameter] = value
-    
+
     return f"{request.path}?{urlencode(args)}"
 
 
 @app.teardown_appcontext
-def close_db(exception):
+def close_db(exception) -> None:
     db = getattr(g, "_database", None)
     if db is not None:
         db.close()
 
 
 @app.errorhandler(404)
-def page_not_found(error):
+def page_not_found(error) -> (str, int):
     return render_template("404.html.jinja"), 404
 
 
 @app.after_request
-def add_security_headers(response):
+def add_security_headers(response: Response) -> Response:
     response.headers["X-Frame-Options"] = "DENY"
-    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Strict-Transport-Security"] = (
+        "max-age=31536000; includeSubDomains"
+    )
     response.headers["Content-Security-Policy"] = "default-src 'self'"
-    response.headers['X-Content-Type-Options'] = "nosniff"
+    response.headers["X-Content-Type-Options"] = "nosniff"
     return response
 
 
@@ -55,5 +57,5 @@ app.add_url_rule("/", view_func=index.index_page)
 if environ.get("CE_PROXY", "False") == "True":
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1, x_prefix=1)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()

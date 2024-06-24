@@ -1,6 +1,7 @@
 import sqlite3
 from functools import cache
 from os import environ
+from typing import TypeVar
 
 """This script goes through all the modules and attempts to associate the names of the module
 conveners with the names obtained from the Staff Lookup API, and writes their usernames.
@@ -11,14 +12,28 @@ conveners with the names obtained from the Staff Lookup API, and writes their us
 Staff Lookup results are the mentioned person.
 """
 
-SALUTATIONS = ["Miss", "Mrs", "Mr", "Ms", "Dr", "Mx", "Prof", "Prosir", "Revdr", "Revrd", "Dame",
-               "Baron"]
+SALUTATIONS = [
+    "Miss",
+    "Mrs",
+    "Mr",
+    "Ms",
+    "Dr",
+    "Mx",
+    "Prof",
+    "Prosir",
+    "Revdr",
+    "Revrd",
+    "Dame",
+    "Baron",
+]
 
 db = sqlite3.connect(environ["CE_DATABASE"])
 cursor = db.cursor()
 
+T = TypeVar("T")
 
-def one_or_none(_results):
+
+def one_or_none(_results: list[T]) -> T | None:
     count = len(_results)
     if count == 1:
         return _results[0]
@@ -30,7 +45,7 @@ def one_or_none(_results):
 
 
 @cache
-def lookup(full_name: str):
+def lookup(full_name: str) -> str:
     # Mr John Smith
     # Mr John Beckett Smith
     # John Smith
@@ -45,15 +60,21 @@ def lookup(full_name: str):
     full_name = full_name.replace("_", " ").title()
     forename, surname = full_name.split(" ", 1)
     middle: bool = len(surname.split(" ")) > 1
-    cursor.execute("SELECT username FROM staff WHERE forename = ? AND surname = ?",
-                   (forename, surname))
+    cursor.execute(
+        "SELECT username FROM staff WHERE forename = ? AND surname = ?",
+        (forename, surname),
+    )
     staff = one_or_none(cursor.fetchall())
-    
+
     if staff is None and middle:
-        print(f"Can't find username for {forename} | {surname}, trying [-1] of surname...")
+        print(
+            f"Can't find username for {forename} | {surname}, trying [-1] of surname..."
+        )
         surname = surname.split(" ")[-1]
-        cursor.execute("SELECT username FROM staff WHERE forename = ? AND surname = ?",
-                       (forename, surname))
+        cursor.execute(
+            "SELECT username FROM staff WHERE forename = ? AND surname = ?",
+            (forename, surname),
+        )
         staff = one_or_none(cursor.fetchall())
     if staff is None:
         print(f"ERROR: Couldn't find {forename} | {surname}")
@@ -76,9 +97,14 @@ for row in results:
         username = lookup(name.strip())
 
         if username != "NULL":
-            cursor.execute("INSERT OR IGNORE INTO convenes VALUES (?, ?)", (username, module_code))
+            cursor.execute(
+                "INSERT OR IGNORE INTO convenes VALUES (?, ?)", (username, module_code)
+            )
         else:
-            cursor.execute("INSERT OR IGNORE INTO unknown_conveners VALUES (?, ?)", (name, module_code))
+            cursor.execute(
+                "INSERT OR IGNORE INTO unknown_conveners VALUES (?, ?)",
+                (name, module_code),
+            )
 
 db.commit()
 db.close()
