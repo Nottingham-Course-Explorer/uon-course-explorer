@@ -20,9 +20,7 @@ def index_page():
     level = request.args.get("level", "")
     semester = request.args.get("semester", "")
     school_cookie = request.cookies.get(LAST_SCHOOL_COOKIE, "")
-    school = request.args.get("school",
-                              school_cookie
-                              if school_cookie in SCHOOL_OPTIONS else SCHOOL_OPTIONS[0])
+    school = request.args.get("school", school_cookie if school_cookie in SCHOOL_OPTIONS else SCHOOL_OPTIONS[0])
     
     # Assemble SQL query
     parameters = [school]
@@ -54,11 +52,6 @@ def index_page():
              f"ORDER BY title LIMIT {MODULES_PER_PAGE} OFFSET {offset}")
     cursor.execute(query, parameters)
     modules = add_column_names_list(cursor.fetchall())
-    
-    # Notes about data:
-    # - Sometimes Target Students and Additional Requirements text are exactly the same.
-    #   Maybe don't show Additional Requirements if this is the case.
-    # - Sometimes there are no conveners listed.
     
     response = make_response(render_template("index.html.jinja",
                                              modules=modules,
