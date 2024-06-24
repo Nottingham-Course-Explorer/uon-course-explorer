@@ -1,5 +1,7 @@
 # UoN Course Explorer
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Uptime Robot ratio (30 days)](https://img.shields.io/uptimerobot/ratio/m797149454-d093364e38df45d848992fe4)](https://stats.uptimerobot.com/GmxX1fWvAM)
+![GitHub License](https://img.shields.io/github/license/Nottingham-Course-Explorer/uon-course-explorer)
 
 [Flask](https://flask.palletsprojects.com/) app for browsing University of Nottingham modules.
 Uses 23 lines of JavaScript and one cookie.
