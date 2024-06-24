@@ -59,6 +59,14 @@
     grid-area: select-semester;
 }
 
+table {
+    width: 100%;
+}
+
+select {
+    max-width: 100%;
+}
+
 #pagination {
     display: grid;
     grid-template-rows: auto;

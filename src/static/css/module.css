@@ -1,30 +1,9 @@
-#comment-input-area {
-    display: grid;
-    grid-template-areas:
-                "identicon textarea"
-                "identicon actions";
-    grid-template-columns: min-content 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 10px;
-    row-gap: 10px;
+#display-details-vertical dd {
+    width: 100%;
 }
 
-#identicon {
-    grid-area: identicon;
-}
-
-#textarea {
-    grid-area: textarea;
-}
-
-#actions {
-    grid-area: actions;
-}
-
-#display-details-vertical {
-    dd {
-        width: 100%;
-    }
+#display-details-horizontal {
+    width: 100%;
 }
 
 @media (width >= 600px) {

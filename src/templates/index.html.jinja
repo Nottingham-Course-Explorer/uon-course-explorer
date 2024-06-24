@@ -13,7 +13,7 @@
         "url": "https://uoncourses.org"
     }
     </script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="canonical" href="https://uoncourses.org" />
 {% endblock %}
 {% block main %}
@@ -25,7 +25,7 @@
             <label for="school-select">School</label>
         </div>
         <div id="school-select-container">
-            <select id="school-select" name="school" form="search" style="max-width: 100%">
+            <select id="school-select" name="school" form="search">
             {% for school in school_options %}
                 <option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
             {% endfor %}
@@ -48,7 +48,7 @@
             <label for="semester-select">Semester</label>
         </div>
         <div id="semester-select-container">
-            <select id="semester-select" name="semester" form="search" style="max-width: 100%">
+            <select id="semester-select" name="semester" form="search">
                 <option value="">Any</option>
                 {% for semester in semester_options %}
                 <option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
@@ -71,36 +71,11 @@
         </div>
         <input id="code-input" form="go-to-module">
         <button id="go-button" type="submit" class="btn-primary" form="go-to-module">Go</button>
-
-        <script>
-            const codeInput = document.querySelector("#code-input");
-            const goToModuleForm = document.querySelector("#go-to-module");
-
-            goToModuleForm.addEventListener("submit", event => {
-                event.preventDefault();
-                let query = codeInput.value;
-                if (query === "") {
-                    alert("Enter a module code.");
-                    return
-                }
-                fetch(`/find-module/${query.toUpperCase()}`).then(response => {
-                    switch (response.status) {
-                        case 404:
-                            alert("Couldn't find a module with that code.");
-                            break;
-                        case 200:
-                            response.text().then(text => window.location = text);
-                            break;
-                        default:
-                            alert("Unexpected response from the server. Please try again later.")
-                    }
-                })
-            })
-        </script>
+        <script src="{{ url_for("static", filename="js/index.js") }}" async></script>
     </div>
 
     <!-- Results list -->
-    <table style="width: 100%">
+    <table>
         <thead>
             <tr>
                 <td>Code</td>

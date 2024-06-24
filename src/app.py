@@ -2,7 +2,6 @@ from urllib.parse import urlencode
 
 from flask import Flask, render_template, g, request
 from werkzeug.middleware.proxy_fix import ProxyFix
-from pathlib import Path
 
 import index
 import module

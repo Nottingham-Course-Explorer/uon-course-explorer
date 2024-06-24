@@ -3,6 +3,12 @@
     min-width: 0;
 }
 
+/* Footer */
+footer {
+    text-align: center;
+    padding-top: 30px;
+}
+
 /* Lists */
 li {
     margin: 10px 0;

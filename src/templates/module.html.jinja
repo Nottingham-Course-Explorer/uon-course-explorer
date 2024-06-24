@@ -2,13 +2,13 @@
 {% block title %}{{ module.title }}{% endblock %}
 {% block head -%}
     {{ super() }}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='module.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/module.css') }}">
     <meta property="og:title" content="{{ module.title }}">
 {% endblock %}
 {% block main %}
 	<h1>{{ module.title }}</h1>
 
-	<table id="display-details-horizontal" style="width: 100%">
+	<table id="display-details-horizontal">
 		<thead>
             <tr>
                 <td>Code</td>
@@ -158,39 +158,4 @@
 		</div>
 		<div id="last-updated">Last updated {{ crawl_time }}.</div>
 	</div>
-
-	{% if "comments" in feature_flags %}
-    <hr/>
-
-    <h2>Comments</h2>
-    <p>
-        Leave a comment to give feedback on this module or correct outdated information.
-    </p>
-
-    <form id="comment-input-area"
-          _='on submit
-         halt the event
-         call alert("Hello, world!")'>
-        <div id="identicon">
-            <div title="{{ public_token_short }}">
-                <svg width="60" height="60" data-jdenticon-value="{{ public_token }}"></svg>
-            </div>
-        </div>
-        <textarea id="textarea" maxlength="280" style="height: 81px">This course provides a basic course in algebra and calculus required for data science. It introduces key elements of definition, manipulation, graphical This course provides a basic course in algebra and calculus required for data science. </textarea>
-        <div id="actions">
-            <button class="btn-primary">Post</button>
-        </div>
-    </form>
-
-    <!-- Jdenticon -->
-    <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
-            integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
-            crossorigin="anonymous">
-    </script>
-    <script lang="js">
-        window.jdenticon_config = {
-            padding: 0
-        }
-    </script>
-	{% endif %}
 {% endblock %}
