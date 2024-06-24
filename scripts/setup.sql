@@ -13,8 +13,9 @@ create table convenes
 
 create table unknown_conveners
 (
-    name        text not null primary key,
+    name        text not null,
     module_code text not null
         constraint unknown_conveners_modules_code_fk
-            references modules
+            references modules,
+    primary key (name, module_code)
 )
