@@ -4,17 +4,28 @@
 ![GitHub License](https://img.shields.io/github/license/Nottingham-Course-Explorer/uon-course-explorer)
 
 [Flask](https://flask.palletsprojects.com/) app for browsing University of Nottingham modules.
-Uses 23 lines of JavaScript and one cookie.
+Uses 23 lines of JavaScript and a cookie.
+Made for Python 3.12.
 
-## Deploying
+## Development
 ```
 git clone https://github.com/Nottingham-Course-Explorer/uon-course-explorer.git
 cd uon-course-explorer
-bash deploy/deploy.sh [DATABASE-URL]
+python -m venv .venv; source .venv/bin/activate
+pip install -r requirements.txt
+export CE_DATABASE=[Database File]
+flask run
+```
+
+## Deployment
+```
+git clone https://github.com/Nottingham-Course-Explorer/uon-course-explorer.git
+cd uon-course-explorer
+bash deploy/deploy.sh [Database URL]
 ```
 The deployment script configures [Gunicorn](https://gunicorn.org/) on `127.0.0.1:5100`.
 
-## Installing Caddy
+### Installing Caddy
 ```
 sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
@@ -22,4 +33,3 @@ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo 
 sudo apt update
 sudo apt install caddy
 ```
-Included here for convenience.
