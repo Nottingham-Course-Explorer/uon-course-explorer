@@ -7,6 +7,8 @@
 Uses 23 lines of JavaScript and a cookie.
 Made for Python 3.12.
 
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=ffbee9c97029&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 ## Development
 ```
 git clone https://github.com/Nottingham-Course-Explorer/uon-course-explorer.git
