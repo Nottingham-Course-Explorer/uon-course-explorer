@@ -13,9 +13,10 @@ git clone https://github.com/Nottingham-Course-Explorer/uon-course-explorer.git
 cd uon-course-explorer
 python -m venv .venv; source .venv/bin/activate
 pip install -r requirements.txt
-export CE_DATABASE=[Database File]
+cd src
 flask run
 ```
+Set the `CE_DATABASE` environment variable to the path to your database file.
 
 ## Deployment
 ```
@@ -23,7 +24,7 @@ git clone https://github.com/Nottingham-Course-Explorer/uon-course-explorer.git
 cd uon-course-explorer
 bash deploy/deploy.sh [Database URL]
 ```
-The deployment script configures [Gunicorn](https://gunicorn.org/) on `127.0.0.1:5100`.
+The deployment script downloads your database from the given URL and configures [Gunicorn](https://gunicorn.org/) on `127.0.0.1:5100`.
 
 ### Installing Caddy
 ```
