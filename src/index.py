@@ -60,7 +60,7 @@ def index_page() -> Response:
 
     response = make_response(
         render_template(
-            "index.html.jinja",
+            "index.jinja.html",
             modules=modules,
             name_query=title,
             level_query=level,

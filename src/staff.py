@@ -41,7 +41,7 @@ def staff_page(username: str = None) -> Response:
 
     response = make_response(
         render_template(
-            "staff.html.jinja",
+            "staff.jinja.html",
             staff=staff,
             modules=convened_modules,
             colleagues=colleagues,

@@ -82,7 +82,7 @@ def module_page(code: str = None) -> Response:
 
     response = make_response(
         render_template(
-            "module.html.jinja",
+            "module.jinja.html",
             module=module,
             known_conveners=known_conveners,
             unknown_conveners=unknown_conveners,

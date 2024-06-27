@@ -1,0 +1,131 @@
+{% extends "base.jinja.html" %}
+{% block title %}Module Search{% endblock %}
+{% block description %}Easily search University of Nottingham modules, a replacement for the University of Nottingham
+    Curriculum Catalogue.{% endblock %}
+{% block head -%}
+    {{ super() }}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "University of Nottingham Course Explorer",
+        "alternateName": "Nottingham Course Explorer",
+        "url": "https://uoncourses.org"
+    }
+    </script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="canonical" href="https://uoncourses.org" />
+{% endblock %}
+{% block main %}
+    <h1>Module Search</h1>
+
+    <!-- Search area -->
+    <div id="search-area">
+        <div id="school-label" class="search-label">
+            <label for="school-select">School</label>
+        </div>
+        <div id="school-select-container">
+            <select id="school-select" name="school" form="search">
+            {% for school in school_options %}
+                <option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div id="level-label" class="search-label">
+            <label for="level-select">Level</label>
+        </div>
+        <div id="level-select-container">
+            <select id="level-select" name="level" form="search">
+                <option value="">Any</option>
+                {% for level in level_options %}
+                <option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="semester-label" class="search-label">
+            <label for="semester-select">Semester</label>
+        </div>
+        <div id="semester-select-container">
+            <select id="semester-select" name="semester" form="search">
+                <option value="">Any</option>
+                {% for semester in semester_options %}
+                <option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <form id="search" action="/" method="get"></form>
+
+        <div id="title-label" class="search-label">
+            <label for="title-input">Title</label>
+        </div>
+        <input form="search" id="title-input" name="title" value="{{ name_query }}">
+        <button form="search" id="search-button" type="submit" class="btn-primary">Search</button>
+
+        <form id="go-to-module"></form>
+
+        <div id="code-label" class="search-label">
+            <label for="code-input">Code</label>
+        </div>
+        <input id="code-input" form="go-to-module">
+        <button id="go-button" type="submit" class="btn-primary" form="go-to-module">Go</button>
+        <script src="{{ url_for("static", filename="js/index.js") }}" async></script>
+    </div>
+
+    <!-- Results list -->
+    <table>
+        <thead>
+            <tr>
+                <td>Code</td>
+                <td>Title</td>
+                <td>Credits</td>
+                <td>Level</td>
+                <td>Semesters</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for module in modules %}
+            <tr>
+                <td>
+                    {{- module.code -}}
+                </td>
+                <td>
+                    <a href="{{ url_for("module_page", code=module.code) }}">
+                        {{- module.title -}}
+                    </a>
+                </td>
+                <td>
+                {%- if module.credits != 0 %}
+                    {{- module.credits -}}
+                {%- else -%}
+                    N/A
+                {%- endif -%}
+                </td>
+                <td>
+                    {{- module.level -}}
+                </td>
+                <td>
+                    {{- module.semesters -}}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav id="pagination">
+        <div id="previous-page-grid">
+        {% if page != 1 %}
+            <a href="{{ modify_parameters(page=page - 1) }}">Previous Page</a>
+        {% endif %}
+        </div>
+        <div id="page-info-grid">
+            Page {{ page }} of {{ pages }}
+        </div>
+        <div id="next-page-grid">
+        {% if page != pages %}
+            <a href="{{ modify_parameters(page=page + 1) }}">Next Page</a>
+        {%- endif -%}
+        </div>
+    </nav>
+{% endblock %}
