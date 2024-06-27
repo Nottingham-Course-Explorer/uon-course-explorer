@@ -7,11 +7,8 @@ main() {
   echo "Downloading database..."
   curl "$1" --progress-bar --output "$database_file" || return 1
 
-  echo "Installing venv tool..."
-  apt install python3.11-venv || return 1
-
   echo "Creating venv..."
-  python3 -m venv .venv || return 1
+  python -m venv .venv || return 1
 
   echo "Activating venv..."
   source .venv/bin/activate || return 1
