@@ -1,14 +1,3 @@
-#search-area {
-    display: grid;
-    grid-template-areas:
-            "school-label school school level-label select-level semester-label select-semester select-semester"
-            "name-label name-input name-button code-label code-input code-input code-input go-button";
-    grid-template-columns: auto auto 90px auto auto auto auto auto;
-    grid-template-rows: auto auto;
-    column-gap: 5px;
-    row-gap: 10px;
-}
-
 .search-label {
     display: flex;
     align-items: center;
@@ -18,14 +7,76 @@
     text-align: center;
 }
 
-#title-input {
-    grid-area: name-input;
+#search-area {
+    display: grid;
+    grid-template-areas:
+        "school-label select-school select-school level-label select-level semester-label select-semester select-semester"
+        "title-label title-input search-button code-label code-input code-input code-input go-button";
+    grid-template-columns: auto auto 90px auto auto auto auto auto;
+    grid-template-rows: auto auto;
+    column-gap: 5px;
+    row-gap: 10px;
 }
+
+@media (width < 900px) {
+    #search-area {
+        grid-template-areas:
+            "school-label select-school select-school select-school select-school"
+            "level-label select-level semester-label select-semester select-semester"
+            "code-label code-input code-input code-input go-button"
+            "title-label title-input title-input title-input search-button";
+        grid-template-columns: min-content min-content min-content auto 90px;
+        grid-template-rows: auto auto auto auto;
+    }
+}
+
+@media (width < 550px) {
+    #search-area {
+        grid-template-areas: 
+            "school-label select-school select-school"
+            "level-label select-level select-level"
+            "semester-label select-semester select-semester"
+            "code-label code-input go-button"
+            "title-label title-input title-input"
+            "search-button search-button search-button";
+        grid-template-columns: auto auto 90px;
+        grid-template-rows: repeat(7, auto);
+    }
+}
+
+@media (width < 490px) {
+    #search-area {
+        grid-template-areas:
+            "school-label school-label school-label"
+            "select-school select-school select-school"
+            "level-label select-level select-level"
+            "semester-label select-semester select-semester"
+            "code-label code-input go-button"
+            "title-label title-label title-label"
+            "title-input title-input title-input"
+            "search-button search-button search-button";
+        grid-template-columns: auto auto 90px;
+        grid-template-rows: repeat(9, auto);
+    }
+    #level-label label {
+        text-align: right;
+    }
+    #semester-label label {
+        text-align: right;
+    }
+    #code-label label {
+        text-align: right;
+    }
+}
+
 #title-label {
-    grid-area: name-label;
+    grid-area: title-label;
+}
+#title-input {
+    grid-area: title-input;
 }
 #search-button {
-    grid-area: name-button;
+    grid-area: search-button;
 }
 
 #code-label {
@@ -44,12 +95,18 @@
 #level-select-container {
    grid-area: select-level;
 }
-
-#school-select-container {
-    grid-area: school;
+#level-select {
+    width: 100%;
 }
+
 #school-label {
     grid-area: school-label;
+}
+#school-select-container {
+    grid-area: select-school;
+}
+#school-select {
+    width: 100%;
 }
 
 #semester-label {
@@ -57,6 +114,9 @@
 }
 #semester-select-container {
     grid-area: select-semester;
+}
+#semester-select {
+    width: 100%;
 }
 
 table {
