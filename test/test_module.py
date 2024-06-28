@@ -2,7 +2,7 @@ import sqlite3
 
 import requests
 
-from src.module import format_assessment, format_class
+from pages.module import format_assessment, format_class
 from tools import parse_table
 
 from os import environ

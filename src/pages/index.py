@@ -8,7 +8,7 @@ from tools import get_db, add_column_names_list
 MODULES_PER_PAGE = 20
 LAST_SCHOOL_COOKIE = "last_school"
 
-with open("../search_options.json") as file:
+with open("../../search_options.json") as file:
     search_options = json.loads(file.read())
     LEVEL_OPTIONS = search_options["levels"]
     SEMESTER_OPTIONS = search_options["semesters"]

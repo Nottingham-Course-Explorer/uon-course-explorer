@@ -4,9 +4,7 @@ from urllib.parse import urlencode
 from flask import Flask, render_template, g, request, Response
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-import index
-import module
-import staff
+from pages import index, staff, module
 
 app = Flask(__name__)
 
@@ -30,7 +28,7 @@ def close_db(exception) -> None:
 
 @app.errorhandler(404)
 def page_not_found(error) -> (str, int):
-    return render_template("404.html.jinja"), 404
+    return render_template("404.jinja.html"), 404
 
 
 @app.after_request
