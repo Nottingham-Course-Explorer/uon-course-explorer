@@ -64,7 +64,7 @@
 	</dl>
 
 	<h2 id="summary">Summary</h2>
-	{{ module.summary }}
+	{{ module.summary|safe }}
 
 	{% if module.target_students not in ["-", "", "-."] %}
     <h2>Target Students</h2>
@@ -132,7 +132,7 @@
 	{% endif %}
 
 	<h2 id="learning-outcomes">Learning Outcomes</h2>
-	{{ module.learning_outcomes }}
+	{{ module.learning_outcomes|safe }}
 
 	<h2 id="conveners">Conveners</h2>
 	{% if known_conveners|length > 0 or unknown_conveners|length > 0 %}
