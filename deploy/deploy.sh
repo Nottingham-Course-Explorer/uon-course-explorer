@@ -32,7 +32,7 @@ WorkingDirectory=$PWD/src
 Environment="PATH=$PWD/.venv/bin"
 Environment="CE_PROXY='True'"
 Environment="CE_DATABASE=$database_file"
-ExecStart=gunicorn --bind $bind_address app:app
+ExecStart=$PWD/.venv/bin/gunicorn --bind $bind_address app:app
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
