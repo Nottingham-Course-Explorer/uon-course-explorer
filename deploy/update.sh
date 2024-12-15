@@ -7,7 +7,7 @@ if [[ -n "$(git log origin/main ^main)" ]]; then
   echo "Changes detected, updating..."
   git rebase origin/main
   source "${PWD}"/.venv/bin/activate
-  pip install -r requirements.txt
+  uv sync
   sudo systemctl restart uon-ce
   echo "Done."
 else
