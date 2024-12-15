@@ -87,7 +87,7 @@
     </p>
     <ul>
     {% for co_requisite in co_requisites %}
-        <li><a href="{{ url_for("module_page", code=co_requisite[0]) }}">{{ co_requisite[1] }}</a></li>
+        <li><a href="{{ url_for("module_page", code=co_requisite[0]) }}">{{ co_requisite[1] }} ({{ co_requisite[0] }})</a></li>
     {% endfor %}
     </ul>
 	{% endif %}
@@ -99,7 +99,7 @@
     </p>
     <ul>
     {% for prerequisite in prerequisites %}
-        <li><a href="{{ url_for("module_page", code=prerequisite[0]) }}">{{ prerequisite[1] }}</a></li>
+        <li><a href="{{ url_for("module_page", code=prerequisite[0]) }}">{{ prerequisite[1] }} ({{ prerequisite[0] }})</a></li>
     {% endfor %}
     </ul>
 	{% endif %}

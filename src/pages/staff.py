@@ -29,7 +29,7 @@ def staff_page(username: str = None) -> Response:
     colleagues = add_column_names_list(cursor.fetchall())
 
     cursor.execute(
-        "SELECT name FROM unknown_conveners WHERE module_code IN"
+        "SELECT DISTINCT name FROM unknown_conveners WHERE module_code IN"
         "(SELECT module_code FROM convenes WHERE staff_username = ?)",
         (username,),
     )
