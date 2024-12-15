@@ -13,11 +13,8 @@ main() {
   echo "Activating venv..."
   source .venv/bin/activate || return 1
 
-  echo "Installing requirements..."
-  pip install -r requirements.txt || return 1
-
-  echo "Installing gunicorn..."
-  pip install gunicorn || return 1
+  echo "Syncing project..."
+  uv sync || return 1
 
   echo "Creating service config..."
   cat > /etc/systemd/system/uon-ce.service <<EOF || return 1
