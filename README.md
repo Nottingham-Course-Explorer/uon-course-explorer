@@ -24,7 +24,7 @@ Set the `CE_DATABASE` environment variable to the path to your database file.
 ```
 git clone https://github.com/Nottingham-Course-Explorer/uon-course-explorer.git
 cd uon-course-explorer
-bash deploy/deploy.sh [Database URL]
+./deploy/deploy.sh [Database URL]
 ```
 The deployment script downloads your database from the given URL and configures [Gunicorn](https://gunicorn.org/) on `127.0.0.1:5100`.
 
