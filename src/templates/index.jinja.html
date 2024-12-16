@@ -25,7 +25,7 @@
             <label for="school-select">School</label>
         </div>
         <div id="school-select-container">
-            <select id="school-select" name="school" form="search">
+            <select id="school-select" name="school" autocomplete="off" form="search">
             {% for school in school_options %}
                 <option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
             {% endfor %}
@@ -36,7 +36,7 @@
             <label for="level-select">Level</label>
         </div>
         <div id="level-select-container">
-            <select id="level-select" name="level" form="search">
+            <select id="level-select" name="level" autocomplete="off" form="search">
                 <option value="">Any</option>
                 {% for level in level_options %}
                 <option {%- if level == level_query %} selected{% endif %}>{{ level }}</option>
@@ -48,7 +48,7 @@
             <label for="semester-select">Semester</label>
         </div>
         <div id="semester-select-container">
-            <select id="semester-select" name="semester" form="search">
+            <select id="semester-select" name="semester" autocomplete="off" form="search">
                 <option value="">Any</option>
                 {% for semester in semester_options %}
                 <option {%- if semester == semester_query %} selected{% endif %}>{{ semester }}</option>
