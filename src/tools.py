@@ -1,8 +1,20 @@
 import sqlite3
 from os import environ
 from sqlite3 import Row, Connection
+import re
+from urllib.parse import urlparse
 
 from flask import g
+
+URL_REGEX = r'(?<!["\'>])\bhttps?:\/\/[^\s"\'<>\)]+'
+
+
+def make_links_clickable(html: str) -> str:
+    def wrap_with_anchor(match):
+        url = urlparse(match.group()).geturl()
+        return f'<a href="{url}">{url}</a>'
+
+    return re.sub(URL_REGEX, wrap_with_anchor, html)
 
 
 def add_column_names(result: Row | None) -> dict[str, str] | None:

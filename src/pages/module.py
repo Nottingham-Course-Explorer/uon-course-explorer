@@ -5,7 +5,7 @@ from flask import abort, render_template, url_for, redirect, make_response, Resp
 from num2words import num2words
 
 from config import FEATURE_FLAGS
-from tools import add_column_names, get_db, parse_table, add_column_names_list
+from tools import add_column_names, get_db, parse_table, add_column_names_list, make_links_clickable
 
 
 def module_page(code: str = None) -> Response:
@@ -16,6 +16,7 @@ def module_page(code: str = None) -> Response:
     if module is None:
         abort(404)
 
+    # Get known conveners
     cursor.execute(
         "SELECT username, salutation, forename, surname FROM staff "
         "JOIN convenes ON username = staff_username WHERE module_code = ?",
@@ -23,14 +24,21 @@ def module_page(code: str = None) -> Response:
     )
     known_conveners = add_column_names_list(cursor.fetchall())
 
+    # Get unknown conveners
     cursor.execute("SELECT name FROM unknown_conveners WHERE module_code = ?", (code,))
     unknown_conveners = add_column_names_list(cursor.fetchall())
 
+    # Make links clickable
+    module["summary"] = make_links_clickable(module["summary"])
+    module["learning_outcomes"] = make_links_clickable(module["learning_outcomes"])
+    # Format classes
     classes = [format_class(*class_) for class_ in parse_table(module["classes"], 4)]
+    # Format assessments
     assessments = [
         format_assessment(*assessment)
         for assessment in parse_table(module["assessment"], 5)
     ]
+    # Format co_requisites
     co_requisites = [
         co_requisite for co_requisite in parse_table(module["co_requisites"], 2)
     ]
@@ -39,6 +47,7 @@ def module_page(code: str = None) -> Response:
     #    prerequisite for prerequisite in parse_table(module["prerequisites"], 2)
     # ]
 
+    # Format crawl time
     crawl_time = datetime.fromtimestamp(
         int(module["crawl_time"]), timezone.utc
     ).strftime("%d/%m/%Y")

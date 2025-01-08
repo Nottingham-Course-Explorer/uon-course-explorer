@@ -10,6 +10,7 @@ textarea {
 select {
     font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     padding: 5px;
+    height: 43px;
 }
 
 input {

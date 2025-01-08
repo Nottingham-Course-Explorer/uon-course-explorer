@@ -9,7 +9,7 @@
 
 #title {
     text-decoration: none;
-    color: #c9d1d9;
+    color: var(--colour-foreground);
 }
 
 #search-area {

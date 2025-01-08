@@ -1,3 +1,9 @@
+:root {
+    color-scheme: light dark;
+    --colour-foreground: light-dark(#444444, #c9d1d9);
+    --colour-background: light-dark(white ,#0d1117);
+}
+
 /* Avoid weirdness */
 * {
     min-width: 0;
@@ -22,12 +28,13 @@ body {
 	margin: 40px auto;
 	padding: 0 15px;
 	font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-	color: #444;
+	color: var(--colour-foreground);
+    background-color: var(--colour-background);
 }
 
 hr {
     border: none;
-    border-top: 1px solid #a5b0b0;
+    border-top: 1px solid var(--colour-foreground);
 }
 
 h1, h2, h3 {
@@ -46,7 +53,7 @@ thead {
 }
 
 th, td {
-    border-bottom: 1px solid #a5b0b0;
+    border-bottom: 1px solid var(--colour-foreground);
     padding: 15px;
 }
 
@@ -66,30 +73,17 @@ dt {
 
 dd {
     display: table-cell;
-    padding: 10px 10px 10px;
+    padding: 10px 20px 10px;
 }
 
 .summary-list-row {
     display: table-row;
-    border-bottom: 1px solid #a5b0b0;
+    border-bottom: 1px solid var(--colour-foreground);
 }
 
 /* Dark mode */
 
-:root {
-    color-scheme: light;
-}
-
 @media (prefers-color-scheme: dark) {
-    :root {
-        color-scheme: dark;
-    }
-
-	body {
-		color: #c9d1d9;
-		background-color: #0d1117;
-	}
-
 	a:link {
 		color: #58a6ff;
 	}
