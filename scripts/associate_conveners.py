@@ -58,8 +58,8 @@ def lookup(full_name: str) -> str | None:
     # "Mr John Beckett Smith"
     # "John Smith"
     # "John Beckett Smith"
-    first_rest = full_name.split(" ", 1) # ["John", "Smith"] | ["Mr", "John Smith"]
-    first = first_rest[0] # "John" | "Mr"
+    first_rest = full_name.split(" ", 1)  # ["John", "Smith"] | ["Mr", "John Smith"]
+    first = first_rest[0]  # "John" | "Mr"
     if first in SALUTATIONS:
         full_name = first_rest[1]
     full_name = full_name.replace("_", " ").title()
@@ -117,4 +117,6 @@ for row in results:
 db.commit()
 db.close()
 
-print(f"\nDone. Found {associated_total} people, couldn't find {not_associated_total}.\n")
+print(
+    f"\nDone. Found {associated_total} people, couldn't find {not_associated_total}.\n"
+)
