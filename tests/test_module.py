@@ -5,7 +5,7 @@ import requests
 from pages.module import format_assessment, format_class
 from tools import parse_table
 
-from os import environ
+import sys
 
 
 def test_format_assessment():
@@ -34,20 +34,20 @@ def test_format_assessment():
 def test_format_class():
     assert (
         format_class("Lecture", "11 weeks", "1 week", "1 hours and 30 minutes")
-        == "One 1-hour-30-minute lecture per week for 11 weeks"
+        == "One 1-hour-30-minute lecture each week for 11 weeks"
     )
     assert (
         format_class("Seminar", "10 weeks", "2 week", "2 hours")
-        == "Two 2-hour seminars per week for 10 weeks"
+        == "Two 2-hour seminars each week for 10 weeks"
     )
     assert (
         format_class("Lecture", "9 weeks", "35 week", "1 hour")
-        == "Thirty-five 1-hour lectures per week for 9 weeks"
+        == "Thirty-five 1-hour lectures each week for 9 weeks"
     )
 
 
 def test_format_assessment_all():
-    db = sqlite3.connect(environ["CE_DATABASE"])
+    db = sqlite3.connect(sys.argv[1])
     cursor = db.cursor()
     cursor.execute("SELECT assessment FROM MODULES")
     for row in cursor.fetchall():
@@ -56,7 +56,7 @@ def test_format_assessment_all():
 
 
 def test_format_class_all():
-    db = sqlite3.connect(environ["CE_DATABASE"])
+    db = sqlite3.connect(sys.argv[1])
     cursor = db.cursor()
     cursor.execute("SELECT classes FROM MODULES")
     for row in cursor.fetchall():
@@ -69,7 +69,7 @@ def local_module_url(code):
 
 
 def test_ok_responses():
-    db = sqlite3.connect(environ["CE_DATABASE"])
+    db = sqlite3.connect(sys.argv[1])
     cursor = db.cursor()
     cursor.execute("SELECT code FROM modules")
     for module in cursor.fetchall():

@@ -23,7 +23,7 @@ def format_class(class_type: str, weeks: str, per_week_str: str, duration: str) 
     if weeks == "1 week":
         return f"One {duration}{class_type.lower()}"
     per_week = int(per_week_str.split(" ")[0]) if per_week_str else 1
-    return f"{string.capwords(num2words(per_week))} {duration}{class_type.lower()}{"s" if per_week > 1 else ""} per week for {weeks}"
+    return f"{string.capwords(num2words(per_week))} {duration}{class_type.lower()}{"s" if per_week > 1 else ""} each week for {weeks}"
 
 
 def format_assessment(
@@ -72,9 +72,10 @@ def module_page(code: str = None) -> Response:
     co_requisites = [
         co_requisite for co_requisite in parse_table(module["co_requisites"], 2)
     ]
-    prerequisites = [
-        prerequisite for prerequisite in parse_table(module["prerequisites"], 2)
-    ]
+    # Not collected yet.
+    # prerequisites = [
+    #    prerequisite for prerequisite in parse_table(module["prerequisites"], 2)
+    # ]
 
     crawl_time = datetime.fromtimestamp(
         int(module["crawl_time"]), timezone.utc
@@ -87,7 +88,7 @@ def module_page(code: str = None) -> Response:
             known_conveners=known_conveners,
             unknown_conveners=unknown_conveners,
             co_requisites=co_requisites,
-            prerequisites=prerequisites,
+            # prerequisites=prerequisites,
             classes=classes,
             assessments=assessments,
             crawl_time=crawl_time,

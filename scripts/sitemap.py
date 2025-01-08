@@ -1,5 +1,5 @@
 import sqlite3
-from os import environ
+import sys
 
 
 def module_url(code):
@@ -8,7 +8,7 @@ def module_url(code):
 
 lines = []
 
-db = sqlite3.connect(environ["CE_DATABASE"])
+db = sqlite3.connect(sys.argv[1])
 cursor = db.cursor()
 
 cursor.execute("SELECT code FROM modules")

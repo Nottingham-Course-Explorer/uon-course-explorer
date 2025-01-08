@@ -1,6 +1,6 @@
 import sqlite3
 from functools import cache
-from os import environ
+import sys
 from typing import TypeVar
 
 """This script goes through all the modules and attempts to associate the names of the module
@@ -9,7 +9,11 @@ conveners with the names obtained from the Staff Lookup API, and writes their us
 - Some staff names in modules are not in the Staff Lookup database.
 - Some staff names include varying numbers of middle names, or different salutations.
 - Some staff names in modules do not provide enough middle names to determine which of multiple
-Staff Lookup results are the mentioned person.
+Staff Lookup results are the mentioned person. We don't guess in this case.
+
+Usage:
+- Run `sqlite3 modules.db ".read scripts/setup_conveners.sql"` first.
+- `python associate_conveners.py modules.db`
 """
 
 SALUTATIONS = [
@@ -27,10 +31,13 @@ SALUTATIONS = [
     "Baron",
 ]
 
-db = sqlite3.connect(environ["CE_DATABASE"])
+db = sqlite3.connect(sys.argv[1])
 cursor = db.cursor()
 
 T = TypeVar("T")
+
+associated_total = 0
+not_associated_total = 0
 
 
 def one_or_none(_results: list[T]) -> T | None:
@@ -45,17 +52,15 @@ def one_or_none(_results: list[T]) -> T | None:
 
 
 @cache
-def lookup(full_name: str) -> str:
-    # Mr John Smith
-    # Mr John Beckett Smith
-    # John Smith
-    # John Beckett Smith
-    first_rest = full_name.split(" ", 1)
-    first = first_rest[0]
-    # first = Mr | John
-    has_salutation = first in SALUTATIONS
-    if has_salutation:
-        # salutation = first
+def lookup(full_name: str) -> str | None:
+    global associated_total, not_associated_total
+    # "Mr John Smith"
+    # "Mr John Beckett Smith"
+    # "John Smith"
+    # "John Beckett Smith"
+    first_rest = full_name.split(" ", 1) # ["John", "Smith"] | ["Mr", "John Smith"]
+    first = first_rest[0] # "John" | "Mr"
+    if first in SALUTATIONS:
         full_name = first_rest[1]
     full_name = full_name.replace("_", " ").title()
     forename, surname = full_name.split(" ", 1)
@@ -77,9 +82,12 @@ def lookup(full_name: str) -> str:
         )
         staff = one_or_none(cursor.fetchall())
     if staff is None:
-        print(f"ERROR: Couldn't find {forename} | {surname}")
-        return "NULL"
+        print(f"Couldn't find `{forename}` `{surname}`.")
+        not_associated_total += 1
+        return None
     else:
+        print(f"Found {forename} {surname}.")
+        associated_total += 1
         return staff[0]
 
 
@@ -96,7 +104,7 @@ for row in results:
 
         username = lookup(name.strip())
 
-        if username != "NULL":
+        if username is not None:
             cursor.execute(
                 "INSERT OR IGNORE INTO convenes VALUES (?, ?)", (username, module_code)
             )
@@ -109,4 +117,4 @@ for row in results:
 db.commit()
 db.close()
 
-print("Done.")
+print(f"\nDone. Found {associated_total} people, couldn't find {not_associated_total}.\n")

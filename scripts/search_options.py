@@ -1,8 +1,8 @@
 import json
 import sqlite3
-from os import environ
+import sys
 
-db = sqlite3.connect(environ["CE_DATABASE"])
+db = sqlite3.connect(sys.argv[1])
 cursor = db.cursor()
 
 cursor.execute("SELECT DISTINCT school FROM modules ORDER BY school")

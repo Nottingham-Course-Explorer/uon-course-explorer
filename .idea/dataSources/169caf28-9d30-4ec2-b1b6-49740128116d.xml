@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="ce.sqlite3">
+<dataSource name="modules.db">
   <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.53">
     <root id="1">
       <ServerVersion>3.45.1</ServerVersion>
@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-06-28.02:50:00</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-01-08.00:49:36</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1689,7 +1689,6 @@ module_code</ColNames>
       <StoredType>text|0s</StoredType>
     </column>
     <column id="578" parent="556" name="co_requisites">
-      <NotNull>1</NotNull>
       <Position>13</Position>
       <StoredType>text|0s</StoredType>
     </column>
@@ -1728,112 +1727,108 @@ module_code</ColNames>
       <Position>21</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="587" parent="556" name="prerequisites">
-      <Position>22</Position>
-      <StoredType>text|0s</StoredType>
-    </column>
-    <index id="588" parent="556" name="sqlite_autoindex_modules_1">
+    <index id="587" parent="556" name="sqlite_autoindex_modules_1">
       <ColNames>code</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="589" parent="556">
+    <key id="588" parent="556">
       <ColNames>code</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_modules_1</UnderlyingIndexName>
     </key>
-    <column id="590" parent="557" name="type">
+    <column id="589" parent="557" name="type">
       <Position>1</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="591" parent="557" name="name">
+    <column id="590" parent="557" name="name">
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="592" parent="557" name="tbl_name">
+    <column id="591" parent="557" name="tbl_name">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="593" parent="557" name="rootpage">
+    <column id="592" parent="557" name="rootpage">
       <Position>4</Position>
       <StoredType>INT|0s</StoredType>
     </column>
-    <column id="594" parent="557" name="sql">
+    <column id="593" parent="557" name="sql">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="595" parent="558" name="username">
+    <column id="594" parent="558" name="username">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="596" parent="558" name="salutation">
+    <column id="595" parent="558" name="salutation">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="597" parent="558" name="forename">
+    <column id="596" parent="558" name="forename">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="598" parent="558" name="surname">
+    <column id="597" parent="558" name="surname">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="599" parent="558" name="department">
+    <column id="598" parent="558" name="department">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="600" parent="558" name="title">
+    <column id="599" parent="558" name="title">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="601" parent="558" name="email">
+    <column id="600" parent="558" name="email">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="602" parent="558" name="crawl_time">
+    <column id="601" parent="558" name="crawl_time">
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <index id="603" parent="558" name="sqlite_autoindex_staff_1">
+    <index id="602" parent="558" name="sqlite_autoindex_staff_1">
       <ColNames>username</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="604" parent="558">
+    <key id="603" parent="558">
       <ColNames>username</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_staff_1</UnderlyingIndexName>
     </key>
-    <column id="605" parent="559" name="name">
+    <column id="604" parent="559" name="name">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="606" parent="559" name="module_code">
+    <column id="605" parent="559" name="module_code">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <foreign-key id="607" parent="559" name="unknown_conveners_modules_code_fk">
+    <foreign-key id="606" parent="559" name="unknown_conveners_modules_code_fk">
       <ColNames>module_code</ColNames>
       <RefColNames>code</RefColNames>
       <RefTableName>modules</RefTableName>
     </foreign-key>
-    <index id="608" parent="559" name="sqlite_autoindex_unknown_conveners_1">
+    <index id="607" parent="559" name="sqlite_autoindex_unknown_conveners_1">
       <ColNames>name
 module_code</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="609" parent="559">
+    <key id="608" parent="559">
       <ColNames>name
 module_code</ColNames>
       <Primary>1</Primary>
