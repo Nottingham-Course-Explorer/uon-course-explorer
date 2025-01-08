@@ -8,44 +8,6 @@ from config import FEATURE_FLAGS
 from tools import add_column_names, get_db, parse_table, add_column_names_list
 
 
-def format_class(class_type: str, weeks: str, per_week_str: str, duration: str) -> str:
-    duration = (
-        (
-            duration.replace("and ", "")
-            .replace("hours", "hour")
-            .replace("minutes", "minute")
-            .replace(" ", "-")
-        )
-        + " "
-        if duration != ""
-        else ""
-    )
-    if weeks == "1 week":
-        return f"One {duration}{class_type.lower()}"
-    per_week = int(per_week_str.split(" ")[0]) if per_week_str else 1
-    return f"{string.capwords(num2words(per_week))} {duration}{class_type.lower()}{"s" if per_week > 1 else ""} each week for {weeks}"
-
-
-def format_assessment(
-    title: str, weight: str, type_: str, duration: str, requirements: str
-) -> str:
-    weight = f"{int(float(weight))}% " if weight.strip() else ""
-    if duration.strip():
-        duration_str = (
-            " ("
-            + (
-                duration.replace("Hr", "-hour")
-                .replace("Mins", "-minute")
-                .replace(" ", "-")
-            )
-            + ")"
-        )
-    else:
-        duration_str = ""
-    requirements_str = ": " + requirements if requirements else ""
-    return weight + title + duration_str + requirements_str
-
-
 def module_page(code: str = None) -> Response:
     cursor = get_db().cursor()
     cursor.execute("SELECT * FROM modules WHERE code = ?", (code,))
@@ -116,3 +78,41 @@ def random_module() -> Response:
     if module is None:
         abort(404)
     return redirect(url_for("module_page", code=module["code"]))
+
+
+def format_class(class_type: str, weeks: str, per_week_str: str, duration: str) -> str:
+    duration = (
+        (
+            duration.replace("and ", "")
+            .replace("hours", "hour")
+            .replace("minutes", "minute")
+            .replace(" ", "-")
+        )
+        + " "
+        if duration != ""
+        else ""
+    )
+    if weeks == "1 week":
+        return f"One {duration}{class_type.lower()}"
+    per_week = int(per_week_str.split(" ")[0]) if per_week_str else 1
+    return f"{string.capwords(num2words(per_week))} {duration}{class_type.lower()}{"s" if per_week > 1 else ""} each week for {weeks}"
+
+
+def format_assessment(
+    title: str, weight: str, type_: str, duration: str, requirements: str
+) -> str:
+    weight = f"{int(float(weight))}% " if weight.strip() else ""
+    if duration.strip():
+        duration_str = (
+            " ("
+            + (
+                duration.replace("Hr", "-hour")
+                .replace("Mins", "-minute")
+                .replace(" ", "-")
+            )
+            + ")"
+        )
+    else:
+        duration_str = ""
+    requirements_str = ": " + requirements if requirements else ""
+    return weight + title + duration_str + requirements_str
