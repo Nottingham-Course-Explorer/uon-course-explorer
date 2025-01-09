@@ -19,7 +19,7 @@ for module in results:
     if module_code != "":
         lines.append(module_url(module_code))
 
-with open("sitemap.txt", "w") as f:
+with open("static/sitemap_v3.txt", "w") as f:
     f.writelines(lines)
 
 db.commit()

@@ -51,6 +51,8 @@ app.add_url_rule("/module/<code>", view_func=module.module_page)
 app.add_url_rule("/find-module/<code>", view_func=module.find_module)
 app.add_url_rule("/random-module", view_func=module.random_module)
 app.add_url_rule("/", view_func=index.index_page)
+app.add_url_rule("/malaysia", view_func=index.index_page_malaysia)
+app.add_url_rule("/china", view_func=index.index_page_china)
 
 if environ.get("CE_PROXY", "False") == "True":
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1, x_prefix=1)

@@ -5,7 +5,13 @@ from flask import abort, render_template, url_for, redirect, make_response, Resp
 from num2words import num2words
 
 from config import FEATURE_FLAGS
-from tools import add_column_names, get_db, parse_table, add_column_names_list, make_links_clickable
+from tools import (
+    add_column_names,
+    get_db,
+    parse_table,
+    add_column_names_list,
+    make_links_clickable,
+)
 
 
 def module_page(code: str = None) -> Response:

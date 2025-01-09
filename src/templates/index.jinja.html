@@ -17,7 +17,7 @@
     <link rel="canonical" href="https://uoncourses.org" />
 {% endblock %}
 {% block main %}
-    <h1><a href="{{ url_for("index_page") }}" id="title">Module Search</a></h1>
+    <h1><a href="{{ my_url }}" id="title">{{ campus }} Module Search</a></h1>
 
     <!-- Search area -->
     <div id="search-area">
@@ -56,7 +56,7 @@
             </select>
         </div>
 
-        <form id="search" action="/" method="get"></form>
+        <form id="search" method="get"></form>
 
         <div id="title-label" class="search-label">
             <label for="title-input">Title</label>

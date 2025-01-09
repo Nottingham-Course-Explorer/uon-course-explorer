@@ -1,7 +1,7 @@
 import json
 from datetime import timedelta
 
-from flask import request, render_template, make_response, Response
+from flask import request, render_template, make_response, Response, url_for
 
 from tools import get_db, add_column_names_list
 
@@ -9,25 +9,39 @@ MODULES_PER_PAGE = 20
 LAST_SCHOOL_COOKIE = "last_school"
 
 with open("../search_options.json") as file:
-    search_options = json.loads(file.read())
-    LEVEL_OPTIONS = search_options["levels"]
-    SEMESTER_OPTIONS = search_options["semesters"]
-    SCHOOL_OPTIONS = search_options["schools"]
+    SEARCH_OPTIONS = json.loads(file.read())
 
 
 def index_page() -> Response:
+    return index_page_sub("Nottingham", url_for("index_page"))
+
+
+def index_page_malaysia() -> Response:
+    return index_page_sub("Malaysia", url_for("index_page_malaysia"))
+
+
+def index_page_china() -> Response:
+    return index_page_sub("China", url_for("index_page_china"))
+
+
+def index_page_sub(campus: str, campus_url: str) -> Response:
+    search_options = SEARCH_OPTIONS[campus]
+    school_options = search_options["schools"]
+    level_options = search_options["levels"]
+    semester_options = search_options["semesters"]
+
     title = request.args.get("title", "")
     level = request.args.get("level", "")
     semester = request.args.get("semester", "")
     school_cookie = request.cookies.get(LAST_SCHOOL_COOKIE, "")
     school = request.args.get(
         "school",
-        school_cookie if school_cookie in SCHOOL_OPTIONS else SCHOOL_OPTIONS[0],
+        school_cookie if school_cookie in school_options else school_options[0],
     )
 
     # Assemble SQL query
-    parameters = [school]
-    terms = "WHERE school = ?"
+    parameters = [school, campus]
+    terms = "WHERE school = ? AND campus = ?"
     if title != "":
         terms += "AND title LIKE ? "
         parameters.append(f"%{title}%")
@@ -64,13 +78,15 @@ def index_page() -> Response:
             modules=modules,
             name_query=title,
             level_query=level,
-            level_options=LEVEL_OPTIONS,
+            level_options=level_options,
             semester_query=semester,
-            semester_options=SEMESTER_OPTIONS,
+            semester_options=semester_options,
             school_query=school,
-            school_options=SCHOOL_OPTIONS,
+            school_options=school_options,
             page=page,
             pages=pages,
+            my_url=campus_url,
+            campus=campus
         )
     )
     response.set_cookie(
