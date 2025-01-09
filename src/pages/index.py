@@ -86,7 +86,7 @@ def index_page_sub(campus: str, campus_url: str) -> Response:
             page=page,
             pages=pages,
             my_url=campus_url,
-            campus=campus
+            campus=campus,
         )
     )
     response.set_cookie(
