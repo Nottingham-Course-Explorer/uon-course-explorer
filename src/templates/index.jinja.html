@@ -32,6 +32,7 @@
         </div>
         <div id="school-select-container">
             <select id="school-select" name="school" autocomplete="off" form="search">
+            <option value="">Any</option>
             {% for school in school_options %}
                 <option {%- if school == school_query %} selected{% endif %}>{{ school }}</option>
             {% endfor %}

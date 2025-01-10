@@ -10,7 +10,7 @@
     />
     <Image width="32" height="32" type="image/x-icon">https://uoncourses.org/static/img/favicon.png</Image>
     <!-- Main search URL -->
-    <Url type="text/html" template="https://uoncourses.org/?title={searchTerms}"/>
+    <Url type="text/html" template="https://uoncourses.org/?school=&amp;title={searchTerms}"/>
     <!-- Search suggestions URL -->
     <Url type="application/x-suggestions+json" template="https://uoncourses.org/opensearch-suggestions?searchTerms={searchTerms}" />
 </OpenSearchDescription>
