@@ -4,6 +4,7 @@ from urllib.parse import urlencode
 from flask import Flask, render_template, g, request, Response
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+import api.search
 from pages import index, staff, module
 
 app = Flask(__name__)
@@ -53,6 +54,8 @@ app.add_url_rule("/random-module", view_func=module.random_module)
 app.add_url_rule("/", view_func=index.index_page)
 app.add_url_rule("/malaysia", view_func=index.index_page_malaysia)
 app.add_url_rule("/china", view_func=index.index_page_china)
+
+app.add_url_rule("/opensearch-suggestions", view_func=api.search.opensearch_suggestions)
 
 if environ.get("CE_PROXY", "False") == "True":
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1, x_prefix=1)
