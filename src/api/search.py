@@ -9,7 +9,7 @@ def opensearch_suggestions():
     search_term = request.args.get("searchTerms", "")
     cursor = get_db().cursor()
     cursor.execute(
-        "SELECT * FROM modules WHERE title LIKE ? LIMIT 5", ("%" + search_term + "%",)
+        "SELECT * FROM modules WHERE title LIKE ? LIMIT 10", ("%" + search_term + "%",)
     )
     modules = add_column_names_list(cursor.fetchall())
 
@@ -19,8 +19,8 @@ def opensearch_suggestions():
 
     for module in modules:
         suggestion_texts.append(module["title"])
-        description_texts.append("Lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem.")
-        urls.append(url_for("module_page", code=module["code"]))
+        description_texts.append("Lorem ipsum dolor sit amet")
+        urls.append("https://uoncourses.org/" + url_for("module_page", code=module["code"]))
 
     response = Response(
         json.dumps(
