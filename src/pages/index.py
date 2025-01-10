@@ -1,7 +1,7 @@
 import json
 from datetime import timedelta
 
-from flask import request, render_template, make_response, Response, url_for
+from flask import request, render_template, make_response, Response, url_for, redirect
 
 from tools import get_db, add_column_names_list
 
@@ -74,6 +74,10 @@ def index_page_sub(campus: str, campus_url: str) -> Response:
     )
     cursor.execute(query, parameters)
     modules = add_column_names_list(cursor.fetchall())
+
+    # If there is one result and the title query is an exact match, go there
+    if len(modules) == 1 and title == modules[0]["title"]:
+        return redirect(url_for("module_page", code=modules[0]["code"]), )
 
     response = make_response(
         render_template(
