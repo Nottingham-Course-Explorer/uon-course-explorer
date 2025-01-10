@@ -15,5 +15,6 @@ def opensearch_suggestions():
         """["test", ["Just! Stop using Makefile", "What's new in Django 3.2 LTS", "Django Plaintext Password", "Temperature & Humidity Sensor with ESPHome", "State of the Server 2024"]]"""
     )
     response.headers["Content-Type"] = "application/x-suggestions+json; charset=utf-8"
+    response.headers["Access-Control-Allow-Origin"] = "*"
 
     return response
