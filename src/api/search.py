@@ -14,21 +14,11 @@ def opensearch_suggestions():
     )
     modules = add_column_names_list(cursor.fetchall())
 
-    suggestion_texts = []
-    description_texts = []
-    urls = []
-
-    for module in modules:
-        suggestion_texts.append(module["title"])
-        description_texts.append("Lorem ipsum dolor sit amet")
-        urls.append('https://uoncourses.org/?school=' + urllib.parse.quote(module["school"]) + '&title=' + search_term)
     response = Response(
         json.dumps(
             [
                 search_term,
-                suggestion_texts,
-                description_texts,
-                urls
+                [module["title"] for module in modules]
             ]
         )
     )
