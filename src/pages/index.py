@@ -75,8 +75,7 @@ def index_page_sub(campus: str, campus_url: str) -> Response:
     cursor.execute(query, parameters)
     modules = add_column_names_list(cursor.fetchall())
 
-    # If there is one result and the title query is an exact match, go there
-    if len(modules) == 1 and title == modules[0]["title"]:
+    if len(modules) == 1 and title.lower() == modules[0]["title"].lower():
         return redirect(url_for("module_page", code=modules[0]["code"]), )
 
     response = make_response(
