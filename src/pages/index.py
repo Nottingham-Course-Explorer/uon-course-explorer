@@ -40,8 +40,11 @@ def index_page_sub(campus: str, campus_url: str) -> Response:
     )
 
     # Assemble SQL query
-    parameters = [school, campus]
-    terms = "WHERE school = ? AND campus = ?"
+    parameters = [campus]
+    terms = "WHERE campus = ?"
+    if school != "":
+        terms += "AND school = ?"
+        parameters.append(school)
     if title != "":
         terms += "AND title LIKE ? "
         parameters.append(f"%{title}%")
