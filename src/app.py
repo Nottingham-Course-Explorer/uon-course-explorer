@@ -49,7 +49,6 @@ app.jinja_env.lstrip_blocks = True
 
 app.add_url_rule("/staff/<username>", view_func=staff.staff_page)
 app.add_url_rule("/module/<code>", view_func=module.module_page)
-app.add_url_rule("/find-module/<code>", view_func=module.find_module)
 app.add_url_rule("/random-module", view_func=module.random_module)
 app.add_url_rule("/", view_func=index.index_page)
 app.add_url_rule("/malaysia", view_func=index.index_page_malaysia)

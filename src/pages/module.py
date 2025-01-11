@@ -77,15 +77,6 @@ def module_page(code: str = None) -> Response:
     return response
 
 
-def find_module(code: str) -> str:
-    cursor = get_db().cursor()
-    cursor.execute("SELECT code FROM modules WHERE code = ?", (code,))
-    module = add_column_names(cursor.fetchone())
-    if module is None:
-        abort(404)
-    return url_for("module_page", code=module["code"])
-
-
 def random_module() -> Response:
     cursor = get_db().cursor()
     cursor.execute("SELECT code FROM modules ORDER BY RANDOM() LIMIT 1")

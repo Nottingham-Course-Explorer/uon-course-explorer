@@ -1,7 +1,6 @@
 import json
 
-from flask import request, Response, url_for
-import urllib.parse
+from flask import request, Response
 
 from tools import get_db, add_column_names_list
 
