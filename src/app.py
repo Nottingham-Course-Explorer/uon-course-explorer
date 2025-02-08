@@ -1,4 +1,5 @@
 from os import environ
+from time import strftime
 from urllib.parse import urlencode
 
 from flask import Flask, render_template, g, request, Response
@@ -6,6 +7,9 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 import api.search
 from pages import index, staff, module
+
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 
@@ -40,6 +44,10 @@ def add_security_headers(response: Response) -> Response:
     )
     response.headers["Content-Security-Policy"] = "default-src 'self'"
     response.headers["X-Content-Type-Options"] = "nosniff"
+
+    timestamp = strftime("[%Y-%b-%d %H:%M]")
+    logger.info("%s %s %s %s %s %s", timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
+
     return response
 
 
@@ -55,6 +63,11 @@ app.add_url_rule("/malaysia", view_func=index.index_page_malaysia)
 app.add_url_rule("/china", view_func=index.index_page_china)
 
 app.add_url_rule("/opensearch-suggestions", view_func=api.search.opensearch_suggestions)
+
+handler = RotatingFileHandler("app.log", maxBytes=100000, backupCount=3)
+logger = logging.getLogger("tdm")
+logger.setLevel(logging.INFO)
+logger.addHandler(handler)
 
 if environ.get("CE_PROXY", "False") == "True":
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1, x_prefix=1)
