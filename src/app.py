@@ -46,7 +46,15 @@ def add_security_headers(response: Response) -> Response:
     response.headers["X-Content-Type-Options"] = "nosniff"
 
     timestamp = strftime("[%Y-%b-%d %H:%M]")
-    logger.info("%s %s %s %s %s %s", timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
+    logger.info(
+        "%s %s %s %s %s %s",
+        timestamp,
+        request.remote_addr,
+        request.method,
+        request.scheme,
+        request.full_path,
+        response.status,
+    )
 
     return response
 

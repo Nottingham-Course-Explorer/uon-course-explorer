@@ -1,7 +1,7 @@
 :root {
     color-scheme: light dark;
     --colour-foreground: light-dark(#444444, #c9d1d9);
-    --colour-background: light-dark(white ,#0d1117);
+    --colour-background: light-dark(white , #121212);
 }
 
 /* Avoid weirdness */

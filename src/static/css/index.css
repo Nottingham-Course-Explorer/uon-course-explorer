@@ -1,3 +1,8 @@
+
+tbody tr:nth-child(odd) {
+    background-color: light-dark(#f1f1f1, #1c1c1c);
+}
+
 .search-label {
     display: flex;
     align-items: center;

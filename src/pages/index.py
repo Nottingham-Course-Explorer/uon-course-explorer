@@ -76,7 +76,9 @@ def index_page_sub(campus: str, campus_url: str) -> Response:
     modules = add_column_names_list(cursor.fetchall())
 
     if len(modules) == 1 and title.lower() == modules[0]["title"].lower():
-        return redirect(url_for("module_page", code=modules[0]["code"]), )
+        return redirect(
+            url_for("module_page", code=modules[0]["code"]),
+        )
 
     response = make_response(
         render_template(
