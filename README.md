@@ -18,6 +18,7 @@ uv sync
 uv venv
 .venv/Scripts/activate
 cd src
+set CE_DATABASE=D:\Code\uoncourses.sqlite3
 flask run
 ```
 Set the `CE_DATABASE` environment variable to the path to your database file.
